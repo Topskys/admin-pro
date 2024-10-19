@@ -6,7 +6,7 @@ interface BaseResponse<T = any> {
   code: number | string;
   data: T;
   message: string;
-  status: number | string;
+  status?: number | string;
 }
 
 // 创建axios实例
