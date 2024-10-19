@@ -2,12 +2,21 @@
   "name": "admin-pro",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
+    "dev": "vite --mode development",
+    "build": "vite build --mode production",
+    "serve": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "vite",
+    "vue3",
+    "pinia",
+    "element-plus",
+    "typescript"
+  ],
+  "author": "Topskys",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^22.7.7",
