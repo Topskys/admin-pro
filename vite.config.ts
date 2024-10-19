@@ -4,6 +4,12 @@ import { fileURLToPath } from "url";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import { viteMockServe } from "vite-plugin-mock";
+import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+import ElementPlus from "unplugin-element-plus/vite"; // css
+import IconsResolver from "unplugin-icons/resolver";
+import Icons from "unplugin-icons/vite";
 
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   // 获取当前工作目录
@@ -28,7 +34,18 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         // 如果接口为 /mock/xxx 以 mock 开头就会被拦截响应配置的内容
         mockPath: "mock", // 数据模拟需要拦截的请求起始 URL
         enable: true // 本地环境是否开启 mock 功能
-      })
+      }),
+      ElementPlus({}),
+      // 自动按需引入插件
+      AutoImport({
+        resolvers: [ElementPlusResolver(), IconsResolver()],
+        dts: fileURLToPath(new URL("./types/auto-imports.d.ts", import.meta.url))
+      }),
+      Components({
+        resolvers: [ElementPlusResolver(), IconsResolver()],
+        dts: fileURLToPath(new URL("./types/components.d.ts", import.meta.url))
+      }),
+      Icons({ autoInstall: true })
     ],
     // 运行后本地预览的服务器
     server: {
