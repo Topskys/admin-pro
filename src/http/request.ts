@@ -22,7 +22,7 @@ service.interceptors.request.use(
   },
   (error: AxiosError) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // 响应拦截器
@@ -42,7 +42,7 @@ service.interceptors.response.use(
     }
     ElMessage.error("网络连接异常，请稍后再试！");
     return Promise.reject(error);
-  }
+  },
 );
 
 export default service;
@@ -75,14 +75,14 @@ const requestInstance = <T = any>(config: AxiosRequestConfig): Promise<T> => {
 export function get<T = any, U = any>(
   config: AxiosRequestConfig,
   url: string,
-  params?: U
+  params?: U,
 ): Promise<T> {
   return requestInstance({ ...config, url, method: "GET", params: params });
 }
 export function post<T = any, U = any>(
   config: AxiosRequestConfig,
   url: string,
-  data: U
+  data: U,
 ): Promise<T> {
   return requestInstance({ ...config, url, method: "POST", data: data });
 }
@@ -90,14 +90,14 @@ export function post<T = any, U = any>(
 export function put<T = any, U = any>(
   config: AxiosRequestConfig,
   url: string,
-  params?: U
+  params?: U,
 ): Promise<T> {
   return requestInstance({ ...config, url, method: "PUT", params: params });
 }
 export function del<T = any, U = any>(
   config: AxiosRequestConfig,
   url: string,
-  data: U
+  data: U,
 ): Promise<T> {
   return requestInstance({ ...config, url, method: "DELETE", data: data });
 }
