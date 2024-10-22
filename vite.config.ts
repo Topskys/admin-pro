@@ -38,12 +38,12 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       ElementPlus({}),
       // 自动按需引入插件
       AutoImport({
-        resolvers: [ElementPlusResolver(), IconsResolver()],
-        dts: fileURLToPath(new URL("./types/auto-imports.d.ts", import.meta.url))
+        resolvers: [ElementPlusResolver(), IconsResolver()]
+        // dts: fileURLToPath(new URL("./types/auto-imports.d.ts", import.meta.url))
       }),
       Components({
-        resolvers: [ElementPlusResolver(), IconsResolver()],
-        dts: fileURLToPath(new URL("./types/components.d.ts", import.meta.url))
+        resolvers: [ElementPlusResolver(), IconsResolver()]
+        // dts: fileURLToPath(new URL("./types/components.d.ts", import.meta.url))
       }),
       Icons({ autoInstall: true })
     ],

@@ -1,5 +1,6 @@
 <template>
-  <div id="app">APP-</div>
+  <!-- 路由占位 -->
+  <router-view></router-view>
 </template>
 
 <script setup lang="ts"></script>
