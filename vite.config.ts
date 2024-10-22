@@ -10,6 +10,9 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import ElementPlus from "unplugin-element-plus/vite"; // css
 import IconsResolver from "unplugin-icons/resolver";
 import Icons from "unplugin-icons/vite";
+import { visualizer } from "rollup-plugin-visualizer";
+import viteCompression from "vite-plugin-compression";
+import { autoComplete, Plugin as importToCDN } from "vite-plugin-cdn-import";
 
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   // 获取当前工作目录
@@ -45,7 +48,34 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         resolvers: [ElementPlusResolver(), IconsResolver()]
         // dts: fileURLToPath(new URL("./types/components.d.ts", import.meta.url))
       }),
-      Icons({ autoInstall: true })
+      Icons({ autoInstall: true }),
+      // 打包分析插件
+      visualizer({
+        gzipSize: true,
+        brotliSize: true,
+        // emitFile: false,
+        // filename: "test.html", //分析图生成的文件名
+        open: true //如果存在本地服务端口，将在打包后自动展示
+      }),
+      // 压缩插件
+      viteCompression({
+        verbose: true,
+        disable: false,
+        threshold: 1024 * 10, // 10mb
+        algorithm: "brotliCompress",
+        ext: ".br",
+        deleteOriginFile: true //打包后是否删除源文件
+      }),
+      // 自动按需引入CDN插件
+      importToCDN({
+        modules: [
+          {
+            name: "echarts",
+            var: "echarts",
+            path: "https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"
+          }
+        ]
+      })
     ],
     // 运行后本地预览的服务器
     server: {
@@ -97,7 +127,13 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           chunkFileNames: "static/js/[name]-[hash].js",
           entryFileNames: "static/js/[name]-[hash].js",
           assetFileNames: "static/[ext]/[name]-[hash].[ext]"
+          // 将echarts分开打包
+          // manualChunks: {
+          //   echarts: ["echarts"]
+          // }
         }
+        // 配置外部依赖（不需要打包）
+        // external: ["echarts"]
       }
     },
     // 配置别名
