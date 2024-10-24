@@ -1,6 +1,6 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
-import { ElMessage } from "element-plus";
-import { getMessageInfo } from "./status";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { ElMessage } from 'element-plus';
+import { getMessageInfo } from './status';
 
 interface BaseResponse<T = any> {
   code: number | string;
@@ -42,7 +42,7 @@ service.interceptors.response.use(
       ElMessage.error(getMessageInfo(response.status));
       return Promise.reject(response.data);
     }
-    ElMessage.error("网络连接异常，请稍后再试！");
+    ElMessage.error('网络连接异常，请稍后再试！');
     return Promise.reject(error);
   }
 );
@@ -59,13 +59,13 @@ const requestInstance = <T = any>(config: AxiosRequestConfig): Promise<T> => {
       if (data.code != 0) {
         ElMessage({
           message: data.message,
-          type: "error"
+          type: 'error'
         });
         reject(data.message);
       } else {
         ElMessage({
           message: data.message,
-          type: "success"
+          type: 'success'
         }); // 此处返回data信息 也就是 api 中配置好的 Response类型
         resolve(data.data as T);
       }
@@ -73,15 +73,15 @@ const requestInstance = <T = any>(config: AxiosRequestConfig): Promise<T> => {
   });
 };
 export function get<T = any, U = any>(config: AxiosRequestConfig, url: string, params?: U): Promise<T> {
-  return requestInstance({ ...config, url, method: "GET", params: params });
+  return requestInstance({ ...config, url, method: 'GET', params: params });
 }
 export function post<T = any, U = any>(config: AxiosRequestConfig, url: string, data: U): Promise<T> {
-  return requestInstance({ ...config, url, method: "POST", data: data });
+  return requestInstance({ ...config, url, method: 'POST', data: data });
 }
 
 export function put<T = any, U = any>(config: AxiosRequestConfig, url: string, params?: U): Promise<T> {
-  return requestInstance({ ...config, url, method: "PUT", params: params });
+  return requestInstance({ ...config, url, method: 'PUT', params: params });
 }
 export function del<T = any, U = any>(config: AxiosRequestConfig, url: string, data: U): Promise<T> {
-  return requestInstance({ ...config, url, method: "DELETE", data: data });
+  return requestInstance({ ...config, url, method: 'DELETE', data: data });
 }

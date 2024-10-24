@@ -1,102 +1,102 @@
-import { MockMethod } from "vite-plugin-mock";
+import { MockMethod } from 'vite-plugin-mock';
 
 export default [
   {
-    url: "/mock/api/getAuthList",
-    method: "get",
+    url: '/mock/api/getAuthList',
+    method: 'get',
     response: () => {
       return {
         code: 0,
-        message: "success",
+        message: 'success',
         data: [
           {
-            name: "项目列表",
+            name: '项目列表',
             roleId: 1,
-            viewRole: "",
+            viewRole: '',
             roleList: [
               {
-                name: "项目详情",
+                name: '项目详情',
                 roleId: 4,
-                viewRole: "",
+                viewRole: '',
                 roleList: [
                   {
-                    name: "审核",
+                    name: '审核',
                     roleId: 5
                   }
                 ]
               },
               {
-                name: "查看",
+                name: '查看',
                 roleId: 2
               },
               {
-                name: "删除",
+                name: '删除',
                 roleId: 3
               }
             ]
           },
           {
-            name: "工程列表",
+            name: '工程列表',
             roleId: 6,
-            viewRole: "",
+            viewRole: '',
             roleList: [
               {
-                name: "工程详情",
+                name: '工程详情',
                 roleId: 9,
-                viewRole: "",
+                viewRole: '',
                 roleList: [
                   {
-                    name: "修改",
+                    name: '修改',
                     roleId: 10
                   }
                 ]
               },
               {
-                name: "查看",
+                name: '查看',
                 roleId: 7
               },
               {
-                name: "删除",
+                name: '删除',
                 roleId: 8
               }
             ]
           },
           {
-            name: "用户管理",
+            name: '用户管理',
             roleId: 11,
-            viewRole: "",
+            viewRole: '',
             roleList: [
               {
-                name: "删除",
+                name: '删除',
                 roleId: 14,
-                viewRole: ""
+                viewRole: ''
               },
               {
-                name: "查看",
+                name: '查看',
                 roleId: 12
               },
               {
-                name: "修改",
+                name: '修改',
                 roleId: 13
               }
             ]
           },
           {
-            name: "角色管理",
+            name: '角色管理',
             roleId: 15,
-            viewRole: "",
+            viewRole: '',
             roleList: [
               {
-                name: "角色删除",
+                name: '角色删除',
                 roleId: 17,
-                viewRole: ""
+                viewRole: ''
               },
               {
-                name: "查看",
+                name: '查看',
                 roleId: 18
               },
               {
-                name: "修改",
+                name: '修改',
                 roleId: 16
               }
             ]

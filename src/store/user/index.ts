@@ -1,6 +1,6 @@
-import { defineStore } from "pinia";
-import pinia from "..";
-import { login, refreshUserInfo } from "@/api";
+import { defineStore } from 'pinia';
+import pinia from '..';
+import { login, refreshUserInfo } from '@/api';
 
 export interface IUserState {
   username: string;
@@ -9,11 +9,11 @@ export interface IUserState {
   roles: string[];
 }
 
-export const useUserStoreHook = defineStore("userInfo", {
+export const useUserStoreHook = defineStore('userInfo', {
   state: (): IUserState => ({
-    username: "Topskys",
-    accessToken: "",
-    roles: ["admin"]
+    username: 'Topskys',
+    accessToken: '',
+    roles: ['admin']
   }),
   getters: {
     // TODO: add getters
@@ -30,12 +30,12 @@ export const useUserStoreHook = defineStore("userInfo", {
           return res;
         })
         .catch((err) => {
-          console.log("登录失败", err);
+          console.log('登录失败', err);
         });
     },
     // 刷新token
     storeRefreshUserInfo() {
-      if (this.username == "Topskys" && this.accessToken != "") {
+      if (this.username == 'Topskys' && this.accessToken != '') {
         refreshUserInfo({
           accessToken: this.accessToken
         })
@@ -46,14 +46,14 @@ export const useUserStoreHook = defineStore("userInfo", {
             return res;
           })
           .catch(() => {
-            this.accessToken = " ";
+            this.accessToken = ' ';
           });
       }
     }
   },
   // 持久化
   persist: {
-    key: "userInfo",
+    key: 'userInfo',
     storage: sessionStorage
     // paths: ["accessToken"],
   }

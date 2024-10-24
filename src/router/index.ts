@@ -1,9 +1,9 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
-import "nprogress/nprogress.css";
-import NProgress from "nprogress";
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
+import 'nprogress/nprogress.css';
+import NProgress from 'nprogress';
 
 // 整体导入路由文件（默认是懒加载）
-const modules: Record<string, any> = import.meta.glob("./modules/*.ts", {
+const modules: Record<string, any> = import.meta.glob('./modules/*.ts', {
   eager: true /* 取消懒加载 */
 });
 
