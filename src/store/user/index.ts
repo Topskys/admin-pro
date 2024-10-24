@@ -22,16 +22,13 @@ export const useUserStoreHook = defineStore('userInfo', {
     // TODO: add actions
     // 用户登录
     storeUserLogin(data) {
-      return login(data)
-        .then((res) => {
-          this.roles = res.roles;
-          this.username = res.username;
-          this.accessToken = res.accessToken;
-          return res;
-        })
-        .catch((err) => {
-          console.log('登录失败', err);
-        });
+      return login(data).then((response) => {
+        const { roles = [], username, accessToken } = response;
+        this.roles = roles;
+        this.username = username;
+        this.accessToken = accessToken;
+        return response;
+      });
     },
     // 刷新token
     storeRefreshUserInfo() {

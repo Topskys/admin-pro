@@ -7,12 +7,15 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    ElButton: (typeof import('element-plus/es'))['ElButton'];
-    ElDrawer: (typeof import('element-plus/es'))['ElDrawer'];
-    IEpClose: (typeof import('~icons/ep/close'))['default'];
-    IEpSetting: (typeof import('~icons/ep/setting'))['default'];
-    IEpUser: (typeof import('~icons/ep/user'))['default'];
-    RouterLink: (typeof import('vue-router'))['RouterLink'];
-    RouterView: (typeof import('vue-router'))['RouterView'];
+    ElButton: typeof import('element-plus/es')['ElButton']
+    ElDrawer: typeof import('element-plus/es')['ElDrawer']
+    ElForm: typeof import('element-plus/es')['ElForm']
+    ElFormItem: typeof import('element-plus/es')['ElFormItem']
+    ElInput: typeof import('element-plus/es')['ElInput']
+    IEpClose: typeof import('~icons/ep/close')['default']
+    IEpSetting: typeof import('~icons/ep/setting')['default']
+    IEpUser: typeof import('~icons/ep/user')['default']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
   }
 }

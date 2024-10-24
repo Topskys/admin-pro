@@ -31,10 +31,10 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response) => {
     if (response.status === 200) {
-      return response.data;
+      return response;
     }
     ElMessage.error(getMessageInfo(response.status));
-    return response.data;
+    return response;
   },
   (error) => {
     const { response } = error;

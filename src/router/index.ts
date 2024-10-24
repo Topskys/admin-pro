@@ -18,10 +18,24 @@ const router = createRouter({
 
 export default router;
 
+const whiteList = ['/login', '/404', '/403'];
 router.beforeEach((to, from, next) => {
   // 进度条开始
   NProgress.start();
-  next();
+  const token = sessionStorage.getItem('userInfo');
+  if (token) {
+    if (to.path === '/login') {
+      next({ path: '/' });
+    } else {
+      next();
+    }
+  } else {
+    if (whiteList.indexOf(to.path) > -1) {
+      next();
+    } else {
+      next('/login');
+    }
+  }
 });
 
 router.afterEach(() => {
