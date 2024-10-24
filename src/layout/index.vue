@@ -35,7 +35,7 @@ import Aside from './components/Aside.vue';
   }
 
   .el-main {
-    padding: 0;
+    padding: 20px;
   }
 }
 
