@@ -18,7 +18,12 @@ const router = createRouter({
 
 export default router;
 
+// 白名单，不需要登录就可以访问的页面
 const whiteList = ['/login', '/404', '/403'];
+
+/**
+ * 路由守卫
+ */
 router.beforeEach((to, from, next) => {
   // 进度条开始
   NProgress.start();

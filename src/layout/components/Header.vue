@@ -54,7 +54,6 @@ const logout = () => {
 .header {
   display: flex;
   padding: 0 15px;
-  margin-bottom: 5px;
   width: 100%;
   height: 60px;
   box-shadow: 0 0 20px rgb(195 223 252/40%);

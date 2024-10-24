@@ -40,7 +40,7 @@ module.exports = {
       }
     ],
     'vue/multi-word-component-names': [
-      'error',
+      'warn',
       {
         ignores: ['index', 'Header', 'tag', 'Tag'] //需要忽略的组件名
       }

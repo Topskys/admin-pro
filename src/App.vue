@@ -4,3 +4,8 @@
 </template>
 
 <script setup lang="ts"></script>
+<style lang="less">
+#app {
+  height: inherit;
+}
+</style>
