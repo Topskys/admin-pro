@@ -22,7 +22,7 @@
       background
       :page-sizes="[5, 10, 15, 20, 25, 30]"
       size="default"
-      layout="prev, pager, next,sizes"
+      layout="total,prev, pager, next,sizes"
       :total="searchData.dataCount"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"

@@ -3,7 +3,7 @@
     <el-header>
       <Header />
     </el-header>
-    <el-container>
+    <el-container class="main-container">
       <el-aside>
         <Aside />
       </el-aside>
@@ -28,6 +28,7 @@ import Aside from './components/Aside.vue';
   .el-aside {
     width: 200px;
     height: 100%;
+    // height: calc(100vh - 65px);
   }
 
   .el-menu {
@@ -37,6 +38,10 @@ import Aside from './components/Aside.vue';
   .el-main {
     padding: 20px;
   }
+}
+
+.main-container {
+  height: calc(100vh - 65px);
 }
 
 .el-breadcrumb {
