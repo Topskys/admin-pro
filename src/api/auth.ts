@@ -1,4 +1,4 @@
-import { get, post } from '@/http/request';
+import service, { get, post } from '@/http/request';
 
 export type LoginRequest = {
   username: string;
@@ -24,6 +24,14 @@ export const refreshUserInfo = async (data?: ReLoginRequest) => {
   return post<LoginResponse>({}, '/getUserInfo', data);
 };
 
+// export const getAuthList = async (data?: any) => {
+//   return get({}, '/getAuthList', data);
+// };
+
 export const getAuthList = async (data?: any) => {
-  return get({}, '/getAuthList', data);
+  return service({
+    url: '/getAuthList',
+    method: 'get',
+    data
+  });
 };

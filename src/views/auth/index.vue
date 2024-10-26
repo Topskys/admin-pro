@@ -2,8 +2,11 @@
   <div class="container">
     <el-tree
       ref="treeRef"
-      :data="treeData"
-      :props="defaultProps"
+      :data="authList"
+      :props="{
+        children: 'roleList',
+        label: 'name'
+      }"
       show-checkbox
       node-key="roleId"
       default-expand-all
@@ -27,12 +30,13 @@ interface IAuth {
   roleId: number;
   roleList?: IAuth[]; // 角色列表 子权限
 }
+
 let authList = ref<IAuth[]>([]);
 let treeRef = ref<any>(null);
 let checkedNode = ref<number[]>([]);
 
 // 如果路由有参数，则tree默认选中
-if (query.path) {
+if (query.auth) {
   checkedNode.value = query.auth as any[];
 }
 
@@ -42,19 +46,11 @@ const fetchAuthList = () => {
   });
 };
 
-const treeData = ref<IAuth[]>([]);
-
-const defaultProps = {
-  children: 'roleList',
-  label: 'name'
-};
-
 onMounted(() => {
   fetchAuthList();
 });
 
 const onChangeAuth = () => {
-  const checkedKeys = treeRef.value.getCheckedKeys();
-  console.log(checkedKeys);
+  const selectedTreeNode = treeRef.value.getCheckedNodes();
 };
 </script>

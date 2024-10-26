@@ -18,54 +18,54 @@ export default {
         parentRouter: 'Layout'
       }
     },
-    {
-      path: '/p',
-      name: 'ParentPage',
-      meta: {
-        isShow: true,
-        title: '父菜单',
-        parentRouter: 'Layout'
-      },
-      children: [
-        {
-          path: '/p/child1',
-          name: 'ChildPage1',
-          meta: {
-            isShow: true,
-            title: '子菜单1',
-            parentRouter: 'ParentPage'
-          }
-        },
-        {
-          path: '/p/child2',
-          name: 'ChildPage2',
-          meta: {
-            isShow: true,
-            title: '子菜单2',
-            parentRouter: 'ParentPage'
-          }
-        },
-        {
-          path: '/p/child3',
-          name: 'ChildPage3',
-          meta: {
-            isShow: true,
-            title: '子菜单3',
-            parentRouter: 'ParentPage'
-          }
-        }
-      ]
-    },
-    {
-      path: '/project',
-      name: 'projectPage',
-      component: () => import(/* webpackChunkName: "home" */ '@/views/project/index.vue'),
-      meta: {
-        isShow: true,
-        title: '项目模块',
-        parentRouter: 'Layout'
-      }
-    },
+    // {
+    //   path: '/p',
+    //   name: 'ParentPage',
+    //   meta: {
+    //     isShow: true,
+    //     title: '父菜单',
+    //     parentRouter: 'Layout'
+    //   },
+    //   children: [
+    //     {
+    //       path: '/p/child1',
+    //       name: 'ChildPage1',
+    //       meta: {
+    //         isShow: true,
+    //         title: '子菜单1',
+    //         parentRouter: 'ParentPage'
+    //       }
+    //     },
+    //     {
+    //       path: '/p/child2',
+    //       name: 'ChildPage2',
+    //       meta: {
+    //         isShow: true,
+    //         title: '子菜单2',
+    //         parentRouter: 'ParentPage'
+    //       }
+    //     },
+    //     {
+    //       path: '/p/child3',
+    //       name: 'ChildPage3',
+    //       meta: {
+    //         isShow: true,
+    //         title: '子菜单3',
+    //         parentRouter: 'ParentPage'
+    //       }
+    //     }
+    //   ]
+    // },
+    // {
+    //   path: '/project',
+    //   name: 'projectPage',
+    //   component: () => import(/* webpackChunkName: "home" */ '@/views/project/index.vue'),
+    //   meta: {
+    //     isShow: true,
+    //     title: '项目模块',
+    //     parentRouter: 'Layout'
+    //   }
+    // },
     {
       path: '/user',
       name: 'UserPage',

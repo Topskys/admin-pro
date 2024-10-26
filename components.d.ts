@@ -27,6 +27,7 @@ declare module 'vue' {
     ElTable: (typeof import('element-plus/es'))['ElTable'];
     ElTableColumn: (typeof import('element-plus/es'))['ElTableColumn'];
     ElTag: (typeof import('element-plus/es'))['ElTag'];
+    ElTree: (typeof import('element-plus/es'))['ElTree'];
     IEpClose: (typeof import('~icons/ep/close'))['default'];
     IEpSetting: (typeof import('~icons/ep/setting'))['default'];
     IEpUser: (typeof import('~icons/ep/user'))['default'];
