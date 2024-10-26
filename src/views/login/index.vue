@@ -59,12 +59,16 @@ const submitForm = (formEl: FormInstance | undefined) => {
 };
 </script>
 <style lang="less" scoped>
+// 优化：使用打包工具将变量文件导入每个vue业务组件中
+// @import '@/styles/variable.less'; // 01 需要导入的变量文件
+
 .login-box {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: var(--dawei-background-color);
+  // background: var(--dawei-background-color);
+  background: @bg; // 02 使用less变量，需要导入的变量文件，在main.ts中导入不管用，因为main是js文件，less文件无法识别
 
   .form {
     width: 300px;
