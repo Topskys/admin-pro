@@ -40,7 +40,7 @@ if (query.auth) {
 
 const fetchAuthList = () => {
   getAuthList().then((res: any) => {
-    authList.value = res;
+    authList.value = res.data.data;
   });
 };
 
