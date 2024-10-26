@@ -1,18 +1,18 @@
-import { defineConfig, loadEnv } from "vite";
-import type { UserConfig, ConfigEnv } from "vite";
-import { fileURLToPath } from "url";
-import vue from "@vitejs/plugin-vue";
-import vueJsx from "@vitejs/plugin-vue-jsx";
-import { viteMockServe } from "vite-plugin-mock";
-import AutoImport from "unplugin-auto-import/vite";
-import Components from "unplugin-vue-components/vite";
-import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
-import ElementPlus from "unplugin-element-plus/vite"; // css
-import IconsResolver from "unplugin-icons/resolver";
-import Icons from "unplugin-icons/vite";
-import { visualizer } from "rollup-plugin-visualizer";
-import viteCompression from "vite-plugin-compression";
-import { autoComplete, Plugin as importToCDN } from "vite-plugin-cdn-import";
+import { defineConfig, loadEnv } from 'vite';
+import type { UserConfig, ConfigEnv } from 'vite';
+import { fileURLToPath } from 'url';
+import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import { viteMockServe } from 'vite-plugin-mock';
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import ElementPlus from 'unplugin-element-plus/vite'; // css
+import IconsResolver from 'unplugin-icons/resolver';
+import Icons from 'unplugin-icons/vite';
+import { visualizer } from 'rollup-plugin-visualizer';
+import viteCompression from 'vite-plugin-compression';
+import { autoComplete, Plugin as importToCDN } from 'vite-plugin-cdn-import';
 
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   // 获取当前工作目录
@@ -24,9 +24,9 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     // 项目根目录
     root,
     // 项目部署的基础路径
-    base: "./",
-    publicDir: fileURLToPath(new URL("./public", import.meta.url)), // 无需处理的静态资源位置
-    assetsInclude: fileURLToPath(new URL("./src/assets", import.meta.url)), // 需要处理的静态资源位置
+    base: './',
+    publicDir: fileURLToPath(new URL('./public', import.meta.url)), // 无需处理的静态资源位置
+    assetsInclude: fileURLToPath(new URL('./src/assets', import.meta.url)), // 需要处理的静态资源位置
     plugins: [
       // Vue模板文件编译插件
       vue(),
@@ -35,18 +35,25 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       // 开启mock服务器
       viteMockServe({
         // 如果接口为 /mock/xxx 以 mock 开头就会被拦截响应配置的内容
-        mockPath: "mock", // 数据模拟需要拦截的请求起始 URL
+        mockPath: 'mock', // 数据模拟需要拦截的请求起始 URL
         enable: true // 本地环境是否开启 mock 功能
       }),
       ElementPlus({}),
       // 自动按需引入插件
       AutoImport({
-        resolvers: [ElementPlusResolver(), IconsResolver()]
-        // dts: fileURLToPath(new URL("./types/auto-imports.d.ts", import.meta.url))
+        // 自动导入vue相关函数
+        imports: ['vue', 'vue-router', 'pinia'],
+        // 处理eslint
+        eslintrc: {
+          enabled: true
+        },
+        // 自动导入element-plus相关函数
+        resolvers: [ElementPlusResolver(), IconsResolver()],
+        dts: fileURLToPath(new URL('./types/auto-imports.d.ts', import.meta.url))
       }),
       Components({
-        resolvers: [ElementPlusResolver(), IconsResolver()]
-        // dts: fileURLToPath(new URL("./types/components.d.ts", import.meta.url))
+        resolvers: [ElementPlusResolver(), IconsResolver()],
+        dts: fileURLToPath(new URL('./types/components.d.ts', import.meta.url))
       }),
       Icons({ autoInstall: true }),
       // 打包分析插件
@@ -62,17 +69,17 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         verbose: true,
         disable: false,
         threshold: 1024 * 10, // 10mb
-        algorithm: "brotliCompress",
-        ext: ".br",
+        algorithm: 'brotliCompress',
+        ext: '.br',
         deleteOriginFile: true //打包后是否删除源文件
       }),
       // 自动按需引入CDN插件
       importToCDN({
         modules: [
           {
-            name: "echarts",
-            var: "echarts",
-            path: "https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"
+            name: 'echarts',
+            var: 'echarts',
+            path: 'https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js'
           }
         ]
       })
@@ -94,14 +101,14 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       proxy: {
         // 这里的意思是 以/api开头发送的请求都会被转发到 http://xxx:9000
         [env.VITE_APP_API_BASEURL]: {
-          target: "http://localhost:9000",
+          target: 'http://localhost:9000',
           // 改变 Host Header
           changeOrigin: true
           // 发起请求时将 '/api' 替换为 ''
           //rewrite: (path) => path.replace(/^\/api/, ""),
         },
         [env.VITE_APP_MOCK_BASEURL]: {
-          target: "http://localhost:9000",
+          target: 'http://localhost:9000',
           // 改变 Host Header
           changeOrigin: true
           // 发起请求时将 '/api' 替换为 ''
@@ -119,14 +126,14 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         // 打包入口文件 根目录下的 index.html
         // 也就是项目从哪个文件开始打包
         input: {
-          index: fileURLToPath(new URL("./index.html", import.meta.url))
+          index: fileURLToPath(new URL('./index.html', import.meta.url))
         },
         // 静态资源分类打包
         output: {
-          format: "esm",
-          chunkFileNames: "static/js/[name]-[hash].js",
-          entryFileNames: "static/js/[name]-[hash].js",
-          assetFileNames: "static/[ext]/[name]-[hash].[ext]"
+          format: 'esm',
+          chunkFileNames: 'static/js/[name]-[hash].js',
+          entryFileNames: 'static/js/[name]-[hash].js',
+          assetFileNames: 'static/[ext]/[name]-[hash].[ext]'
           // 将echarts分开打包
           // manualChunks: {
           //   echarts: ["echarts"]
@@ -139,8 +146,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     // 配置别名
     resolve: {
       alias: {
-        "@": fileURLToPath(new URL("./src", import.meta.url)),
-        "#": fileURLToPath(new URL("./types", import.meta.url))
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+        '#': fileURLToPath(new URL('./types', import.meta.url))
       }
     }
   };

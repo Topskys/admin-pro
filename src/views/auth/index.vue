@@ -19,8 +19,6 @@
 </template>
 <script setup lang="ts">
 import { getAuthList } from '@/api';
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const { query } = route;
@@ -41,7 +39,7 @@ if (query.auth) {
 }
 
 const fetchAuthList = () => {
-  getAuthList().then((res) => {
+  getAuthList().then((res: any) => {
     authList.value = res;
   });
 };

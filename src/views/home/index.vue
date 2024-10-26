@@ -32,7 +32,6 @@
 
 <script setup lang="ts">
 import { getProjectList } from '@/api/project';
-import { computed, onMounted, reactive, ref, watch } from 'vue';
 
 interface IProject {
   id: number;

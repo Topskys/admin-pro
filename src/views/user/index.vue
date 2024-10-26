@@ -62,7 +62,6 @@
 <script setup lang="ts">
 import { getRoleList } from '@/api/role';
 import { getUserList } from '@/api/user';
-import { onMounted, reactive, ref, watch } from 'vue';
 
 interface IRole {
   role: number; // 角色编号

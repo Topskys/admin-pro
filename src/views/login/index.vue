@@ -16,8 +16,6 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { showMessage } from '@/utils';
 import type { FormInstance } from 'element-plus';
 import { useUserStore } from '@/store/user';

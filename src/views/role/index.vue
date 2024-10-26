@@ -18,9 +18,6 @@
 </template>
 <script setup lang="ts">
 import { getRoleList } from '@/api/role';
-import { ElMessage, ElMessageBox } from 'element-plus';
-import { onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
 
 interface IRole {
   role: number;
