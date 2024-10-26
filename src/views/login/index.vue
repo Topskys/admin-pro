@@ -17,10 +17,16 @@
 
 <script lang="ts" setup>
 import { showMessage } from '@/utils';
-import type { FormInstance } from 'element-plus';
+import type { ElForm, FormInstance } from 'element-plus';
 import { useUserStore } from '@/store/user';
+import { useCompRef } from '@/hooks/useCompRef';
 
-const formRef = ref<FormInstance>();
+// const formRef = ref<FormInstance>(); // 01
+// const formRef = ref<InstanceType<typeof ElForm>>(); // 设置标签实例类型 02
+const formRef = useCompRef<typeof ElForm>(); // 设置标签实例类型 03
+const { storeUserLogin } = useUserStore();
+const router = useRouter();
+
 const userInfo = reactive({
   username: 'admin',
   password: 'admin'
@@ -43,8 +49,6 @@ const rules = reactive({
   ]
 });
 
-const { storeUserLogin } = useUserStore();
-const router = useRouter();
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid) => {
