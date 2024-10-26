@@ -62,34 +62,7 @@
 <script setup lang="ts">
 import { getRoleList } from '@/api/role';
 import { getUserList } from '@/api/user';
-
-interface IRole {
-  role: number; // 角色编号
-  roleName: string;
-}
-interface IUser {
-  id: number;
-  nickName: string;
-  userName: string;
-  role: IRole[];
-}
-interface IRoleWithAuth {
-  roleId: number;
-  roleName: string;
-  auth: string[]; // 权限
-}
-
-interface IQueryParams {
-  nickName: string;
-  role: number;
-}
-
-interface IEditUser {
-  id: number;
-  nickName: string;
-  role: [];
-  userName: string;
-}
+import { IEditUser, IQueryParams, IRoleWithAuth, IUser } from '@/types/common';
 
 const userList = ref<IUser[]>([]);
 const searchData = reactive<IQueryParams>({
