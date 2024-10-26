@@ -1,4 +1,60 @@
 <template>
-  <div class="container">auth</div>
+  <div class="container">
+    <el-tree
+      ref="treeRef"
+      :data="treeData"
+      :props="defaultProps"
+      show-checkbox
+      node-key="roleId"
+      default-expand-all
+      highlight-current
+      :check-strictly="true"
+      :default-checked-keys="checkedNode"
+    ></el-tree>
+    <el-button type="primary" @click="onChangeAuth">修改权限</el-button>
+  </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { getAuthList } from '@/api';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const { query } = route;
+
+interface IAuth {
+  name: string;
+  roleId: number;
+  roleList?: IAuth[]; // 角色列表 子权限
+}
+let authList = ref<IAuth[]>([]);
+let treeRef = ref<any>(null);
+let checkedNode = ref<number[]>([]);
+
+// 如果路由有参数，则tree默认选中
+if (query.path) {
+  checkedNode.value = query.auth as any[];
+}
+
+const fetchAuthList = () => {
+  getAuthList().then((res) => {
+    authList.value = res;
+  });
+};
+
+const treeData = ref<IAuth[]>([]);
+
+const defaultProps = {
+  children: 'roleList',
+  label: 'name'
+};
+
+onMounted(() => {
+  fetchAuthList();
+});
+
+const onChangeAuth = () => {
+  const checkedKeys = treeRef.value.getCheckedKeys();
+  console.log(checkedKeys);
+};
+</script>
