@@ -95,6 +95,16 @@ export default {
         isShow: true,
         parentRouter: 'Layout'
       }
+    },
+    {
+      path: '/about',
+      name: 'AboutPage',
+      component: () => import(/* webpackChunkName: "about" */ '@/views/about/index.vue'),
+      meta: {
+        title: '关于模块',
+        isShow: true,
+        parentRouter: 'Layout'
+      }
     }
   ]
 };
