@@ -25,7 +25,7 @@ const router = useRouter();
 // 获取到的是扁平路由
 // const menuList = router.getRoutes().filter((route: any) => {
 // 获取保持到的是嵌套路由
-const menuList = router.options.routes[0].children!.filter((route: any) => {
+const menuList = router.options.routes[0].children?.filter((route: any) => {
   return route.meta?.isShow;
 });
 // 折叠菜单

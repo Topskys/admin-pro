@@ -28,6 +28,12 @@ export const useSettingStoreHook = defineStore('setting', {
     setBreadcrumb() {
       this.isBreadcrumb = !this.isBreadcrumb;
     }
+  },
+  // 持久化
+  persist: {
+    key: 'setting',
+    storage: sessionStorage
+    // paths: ["accessToken"],
   }
 });
 
