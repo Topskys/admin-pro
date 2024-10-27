@@ -14,6 +14,8 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
 import { autoComplete, Plugin as importToCDN } from 'vite-plugin-cdn-import';
 import externalGlobals from 'rollup-plugin-external-globals';
+import brotli from 'rollup-plugin-brotli';
+
 // 不加入打包使用外链
 const globals = externalGlobals({
   mement: 'moment',
@@ -85,15 +87,16 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         open: false //如果存在本地服务端口，将在打包后自动展示
       }),
       // 压缩插件
-      viteCompression({
-        verbose: true,
-        disable: false,
-        threshold: 1024 * 10, // 10mb
-        algorithm: 'brotliCompress',
-        ext: '.br',
-        deleteOriginFile: true //打包后是否删除源文件
-      }),
-      // 自动按需引入CDN插件
+      // viteCompression({
+      //   verbose: true,
+      //   disable: false,
+      //   threshold: 1024 * 10, // 超过10mb才进行压缩
+      //   algorithm: 'brotliCompress',
+      //   ext: '.br',
+      //   deleteOriginFile: true //打包后是否删除源文件
+      // }),
+      brotli({}),
+      // 自动按需引入CDN外链插件
       importToCDN({
         modules: [
           {
@@ -151,12 +154,12 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         },
         // 检测模块的副作用，以避免将无副作用的模块打包到一起
         experimentalLogSideEffects: true,
+        // tree shaking
+        treeshake: {
+          preset: 'recommended'
+        },
         // 静态资源分类打包
         output: {
-          // tree shaking
-          // treeshake: {
-          //   preset: 'recommended'
-          // },
           // 将依赖单独打包到 vendor 文件中，但无法很好的利用缓存
           manualChunks: (id: string) => {
             // html2canvas只有极少数页面使用，故需要单独处理
