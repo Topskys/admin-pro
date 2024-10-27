@@ -5,5 +5,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import CustomTag from '@/components/Tag.vue';
+// 构建工具自动注册组件
+// import CustomTag from '@/components/Tag.vue';
 </script>

@@ -60,9 +60,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         resolvers: [ElementPlusResolver(), IconsResolver()],
         dts: fileURLToPath(new URL('./types/auto-imports.d.ts', import.meta.url))
       }),
+      // 自动注册组件
       Components({
         resolvers: [ElementPlusResolver(), IconsResolver()],
-        dts: fileURLToPath(new URL('./types/components.d.ts', import.meta.url))
+        dts: fileURLToPath(new URL('./types/components.d.ts', import.meta.url)),
+        dirs: fileURLToPath(new URL('./src/components/auto', import.meta.url))
       }),
       Icons({ autoInstall: true }),
       // 打包分析插件
