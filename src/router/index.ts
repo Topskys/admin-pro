@@ -1,6 +1,7 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHashHistory, RouteLocationNormalizedGeneric, RouteRecordRaw } from 'vue-router';
 import 'nprogress/nprogress.css';
 import NProgress from 'nprogress';
+import { useSettingStore } from '@/store/setting';
 
 // 整体导入路由文件（默认是懒加载）
 const modules: Record<string, any> = import.meta.glob('./modules/*.ts', {
@@ -20,6 +21,28 @@ export default router;
 
 // 白名单，不需要登录就可以访问的页面
 const whiteList = ['/login', '/404', '/403'];
+// 处理面包屑路由
+const settingStore = useSettingStore();
+export const getTitle = (name: string, routes: RouteRecordRaw[]) => {
+  const names: string[] = [];
+  while (true) {
+    names.push(name);
+    const currentRoute = routes.find((route) => route.name === name);
+    const parentRoute = routes.find((route) => route.name === currentRoute?.meta?.parentRouter);
+    if (parentRoute) {
+      name = parentRoute.name as string;
+      continue;
+    } else {
+      break;
+    }
+  }
+  return names.reverse();
+};
+const handleRouters = (to: RouteLocationNormalizedGeneric) => {
+  const { name: currentName } = to;
+  const titles = getTitle(currentName as string, router.getRoutes());
+  settingStore.setTitle(titles);
+};
 
 /**
  * 路由守卫
@@ -41,6 +64,7 @@ router.beforeEach((to, from, next) => {
       next('/login');
     }
   }
+  handleRouters(to);
 });
 
 router.afterEach(() => {

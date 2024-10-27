@@ -7,7 +7,10 @@
       <el-aside>
         <Aside />
       </el-aside>
-      <el-main><router-view /></el-main>
+      <el-main>
+        <Breadcrumb />
+        <router-view />
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -15,6 +18,7 @@
 <script setup lang="ts">
 import Header from './components/Header.vue';
 import Aside from './components/Aside.vue';
+import Breadcrumb from './components/Breadcrumb.vue';
 </script>
 <style lang="less" scoped>
 .el-header {
