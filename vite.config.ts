@@ -73,7 +73,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         brotliSize: true,
         // emitFile: false,
         // filename: "test.html", //分析图生成的文件名
-        open: true //如果存在本地服务端口，将在打包后自动展示
+        open: false //如果存在本地服务端口，将在打包后自动展示
       }),
       // 压缩插件
       viteCompression({
@@ -139,17 +139,35 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         input: {
           index: fileURLToPath(new URL('./index.html', import.meta.url))
         },
+        // 检测模块的副作用，以避免将无副作用的模块打包到一起
+        experimentalLogSideEffects: true,
         // 静态资源分类打包
         output: {
-          format: 'esm',
-          chunkFileNames: 'static/js/[name]-[hash].js',
-          entryFileNames: 'static/js/[name]-[hash].js',
-          assetFileNames: 'static/[ext]/[name]-[hash].[ext]'
-          // 将echarts分开打包
-          // manualChunks: {
-          //   echarts: ["echarts"]
-          // }
+          // tree shaking
+          // treeshake: {
+          //   preset: 'recommended'
+          // },
+          // 将依赖单独打包到 vendor 文件中，但无法很好的利用缓存
+          manualChunks: (id: string) => {
+            if (id.includes('node_modules')) {
+              return 'vendor';
+            }
+            return 'index';
+          },
+          // 将小于 20kb 的模块合并到一个文件中，以更好地利用缓存（rollup@3.3+），有副作用代码则无效，需要manualChunks配合
+          experimentalMinChunkSize: 20 * 1024
         }
+        // output: {
+        // 将依赖单独打包到 vendor 文件中，并利用缓存
+        // format: 'esm',
+        // chunkFileNames: 'static/js/[name]-[hash].js',
+        // entryFileNames: 'static/js/[name]-[hash].js',
+        // assetFileNames: 'static/[ext]/[name]-[hash].[ext]'
+        // 将echarts分开打包
+        // manualChunks: {
+        //   echarts: ["echarts"]
+        // }
+        // }
         // 配置外部依赖（不需要打包）
         // external: ["echarts"]
       }
