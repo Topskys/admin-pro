@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <custom-tag text="CustomTag" theme="blue"></custom-tag>
-    <custom-tag text="测试自定义组件" theme="blue"></custom-tag>
+    <Tag text="CustomTag" theme="blue"></Tag>
+    <Tag text="测试自定义组件" theme="blue"></Tag>
   </div>
 </template>
 <script setup lang="ts">
