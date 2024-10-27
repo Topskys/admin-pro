@@ -15,6 +15,7 @@ import viteCompression from 'vite-plugin-compression';
 import { autoComplete, Plugin as importToCDN } from 'vite-plugin-cdn-import';
 import externalGlobals from 'rollup-plugin-external-globals';
 import brotli from 'rollup-plugin-brotli';
+import { createHtmlPlugin } from 'vite-plugin-html'; // 自动导入cdn
 
 // 不加入打包使用外链
 const globals = externalGlobals({
@@ -87,24 +88,33 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         open: false //如果存在本地服务端口，将在打包后自动展示
       }),
       // 压缩插件
-      // viteCompression({
-      //   verbose: true,
-      //   disable: false,
-      //   threshold: 1024 * 10, // 超过10mb才进行压缩
-      //   algorithm: 'brotliCompress',
-      //   ext: '.br',
-      //   deleteOriginFile: true //打包后是否删除源文件
-      // }),
-      brotli({}),
+      viteCompression({
+        verbose: true,
+        disable: false,
+        threshold: 1024 * 10, // 超过10mb才进行压缩
+        algorithm: 'brotliCompress',
+        ext: '.br',
+        deleteOriginFile: true //打包后是否删除源文件
+      }),
+      // brotli({}),
       // 自动按需引入CDN外链插件
-      importToCDN({
-        modules: [
-          {
-            name: 'echarts',
-            var: 'echarts',
-            path: 'https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js'
+      // importToCDN({
+      //   modules: [
+      //     {
+      //       name: 'echarts',
+      //       var: 'echarts',
+      //       path: 'https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js'
+      //     }
+      //   ]
+      // }),
+      // or
+      createHtmlPlugin({
+        inject: {
+          data: {
+            // 需要再html中使用的变量<% echartsscript %>
+            echartsscript: `<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>`
           }
-        ]
+        }
       }),
       globals // 不加入打包使用外链（cdn）
     ],
@@ -174,7 +184,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           },
           // 将小于 20kb 的模块合并到一个文件中，以更好地利用缓存（rollup@3.3+），有副作用代码则无效，需要manualChunks配合
           experimentalMinChunkSize: 20 * 1024
-        },
+        }
         // output: {
         // 将依赖单独打包到 vendor 文件中，并利用缓存
         // format: 'esm',
@@ -187,7 +197,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         // }
         // }
         // 配置外部依赖（不需要打包）
-        external: ['echarts', 'html2canvas', 'jspdf', 'moment', 'videojs', 'xlsx']
+        // external: ['echarts', 'html2canvas', 'jspdf', 'moment', 'videojs', 'xlsx']
       }
     },
     // 配置别名
