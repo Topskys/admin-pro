@@ -13,6 +13,15 @@ import Icons from 'unplugin-icons/vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
 import { autoComplete, Plugin as importToCDN } from 'vite-plugin-cdn-import';
+import externalGlobals from 'rollup-plugin-external-globals';
+// 不加入打包使用外链
+const globals = externalGlobals({
+  mement: 'moment',
+  jspdf: 'jspdf',
+  xlsx: 'XLSX',
+  echarts: 'echarts',
+  'video.js': 'videojs'
+});
 
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   // 获取当前工作目录
@@ -93,7 +102,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
             path: 'https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js'
           }
         ]
-      })
+      }),
+      globals // 不加入打包使用外链（cdn）
     ],
     // 运行后本地预览的服务器
     server: {
@@ -149,6 +159,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           // },
           // 将依赖单独打包到 vendor 文件中，但无法很好的利用缓存
           manualChunks: (id: string) => {
+            // html2canvas只有极少数页面使用，故需要单独处理
+            if (id.includes('html2canvas')) {
+              return 'html2canvas';
+            }
+            // 如果node_modules非常大，可以考虑外链的形式 rollup-plugin-external-globals
             if (id.includes('node_modules')) {
               return 'vendor';
             }
@@ -156,7 +171,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           },
           // 将小于 20kb 的模块合并到一个文件中，以更好地利用缓存（rollup@3.3+），有副作用代码则无效，需要manualChunks配合
           experimentalMinChunkSize: 20 * 1024
-        }
+        },
         // output: {
         // 将依赖单独打包到 vendor 文件中，并利用缓存
         // format: 'esm',
@@ -169,7 +184,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         // }
         // }
         // 配置外部依赖（不需要打包）
-        // external: ["echarts"]
+        external: ['echarts', 'html2canvas', 'jspdf', 'moment', 'videojs', 'xlsx']
       }
     },
     // 配置别名
