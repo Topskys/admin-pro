@@ -16,6 +16,7 @@ import { autoComplete, Plugin as importToCDN } from 'vite-plugin-cdn-import';
 import externalGlobals from 'rollup-plugin-external-globals';
 import brotli from 'rollup-plugin-brotli';
 import { createHtmlPlugin } from 'vite-plugin-html'; // 自动导入cdn
+import { manualChunksPlugin } from 'vite-plugin-webpackchunkname';
 
 // 不加入打包使用外链
 const globals = externalGlobals({
@@ -76,7 +77,9 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       Components({
         resolvers: [ElementPlusResolver(), IconsResolver()],
         dts: fileURLToPath(new URL('./types/components.d.ts', import.meta.url)),
-        dirs: fileURLToPath(new URL('./src/components/auto', import.meta.url))
+        dirs: fileURLToPath(new URL('./src/components/auto', import.meta.url)),
+        // 只针对vue做处理（/* webpackChunkName: about */将某个组件打成单个文件时）
+        include: [/\.vue$/, /\.vue\?/]
       }),
       Icons({ autoInstall: true }),
       // 打包分析插件
@@ -85,7 +88,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         brotliSize: true,
         // emitFile: false,
         // filename: "test.html", //分析图生成的文件名
-        open: false //如果存在本地服务端口，将在打包后自动展示
+        open: false // 如果存在本地服务端口，将在打包后自动展示
       }),
       // 压缩插件
       viteCompression({
@@ -116,7 +119,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           }
         }
       }),
-      globals // 不加入打包使用外链（cdn）
+      globals, // 不加入打包使用外链（cdn）
+      manualChunksPlugin() // 静态资源分类打包
     ],
     // 运行后本地预览的服务器
     server: {
@@ -176,6 +180,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
             if (id.includes('html2canvas')) {
               return 'html2canvas';
             }
+            // 将about页面打成一个文件
+            // if (id.includes('src/views/about')) {
+            //   return 'about';
+            // }
+            // 使用unplugin-vue-component和vite-plugin-webpackchunkname将about页面打成一个文件
             // 如果node_modules非常大，可以考虑外链的形式 rollup-plugin-external-globals
             if (id.includes('node_modules')) {
               return 'vendor';
