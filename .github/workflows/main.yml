@@ -59,7 +59,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           # branch: gh-pages # 部署后提交到那个分支
-          # github_token: ${{ secrets.PAT }}
+          github_token: ${{ secrets.ADMIN_PRO_CICD }} # 私钥
           deploy_key: ${{ secrets.ADMIN_PRO_CICD }} #公钥
           publish_dir: ./dist # 这里填打包好的目录名称
           publish_branch: gh-pages
