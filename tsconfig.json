@@ -34,7 +34,7 @@
     // 启用阻止对下载库的类型检查
     "skipLibCheck": true,
     // types用来指定需要包含的模块
-    "types": ["vite/client", "element-plus/global"],
+    "types": ["vite/client"],
     // 编译的时候删除注释
     "removeComments": true,
     // 使用绝对路径时使用baseUrl去解析导入路径
