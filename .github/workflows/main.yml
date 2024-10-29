@@ -62,5 +62,6 @@ jobs:
           github_token: ${{ secrets.ADMIN_PRO_CICD }} # 
           # deploy_key: ${{ secrets.ADMIN_PRO_CICD }} # 使用密钥部署 Setting -> Secrets -> New repository secret -> Name: DEPLOY_KEY -> Value: your deploy key
           publish_dir: ./dist # 这里填打包好的目录名称
+          folder: dist # 这里填打包好的目录名称
           # publish_branch: gh-pages
           commit_message: '自动化部署'
