@@ -4,7 +4,7 @@ name: deploy
 on:
   push:
     branches:
-      - gh-pages # 这里只配置了gh-pages分支，所以只有推送gh-pages分支才会触发以下任务
+      - cicd # 这里只配置了cicd分支，所以只有推送cicd分支才会触发以下任务
     paths-ignore: # 下列文件的变更不会触发部署
       - README.md
 
