@@ -11,12 +11,12 @@ on:
 jobs:
   build-and-deploy: # 任务ID
     runs-on: ubuntu-latest # 运行环境
-    steps:  # 步骤
+    steps: # 步骤
       # 官方action，将代码拉取到虚拟机
-      - name: Checkout 
+      - name: Checkout
         uses: actions/checkout@v2
         with:
-          persist-credentials: false  # 这个设置很重要，尤其是在部署到 public repository 时
+          persist-credentials: false # 这个设置很重要，尤其是在部署到 public repository 时
 
       # 启用node
       - name: Setup Node.js
@@ -49,13 +49,13 @@ jobs:
       # 安装项目依赖
       - name: Install dependencies
         run: pnpm install
-      
+
       # 打包构建
       - name: Build
         run: pnpm run build
 
       # 部署到 Github Pages
-      - name: Deploy 
+      - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           # branch: gh-pages # 部署后提交到那个分支
@@ -63,5 +63,3 @@ jobs:
           deploy_key: ${{ secrets.ADMIN_PRO_CICD }} #公钥
           publish_dir: ./dist # 这里填打包好的目录名称
           publish_branch: gh-pages
-
-
