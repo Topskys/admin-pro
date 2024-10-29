@@ -1,4 +1,4 @@
 <template>
-  <div class="container">user</div>
+  <div class="container">search</div>
 </template>
 <script setup lang="ts"></script>

@@ -17,6 +17,7 @@ import externalGlobals from 'rollup-plugin-external-globals';
 import brotli from 'rollup-plugin-brotli';
 import { createHtmlPlugin } from 'vite-plugin-html'; // 自动导入cdn
 import { manualChunksPlugin } from 'vite-plugin-webpackchunkname';
+import { VantResolver } from '@vant/auto-import-resolver';
 
 // 不加入打包使用外链
 const globals = externalGlobals({
@@ -69,13 +70,13 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         eslintrc: {
           enabled: true
         },
-        // 自动导入element-plus相关函数
-        resolvers: [ElementPlusResolver(), IconsResolver()],
+        // 自动导入相关函数
+        resolvers: [VantResolver()],
         dts: fileURLToPath(new URL('./types/auto-imports.d.ts', import.meta.url))
       }),
       // 自动注册组件
       Components({
-        resolvers: [ElementPlusResolver(), IconsResolver()],
+        resolvers: [VantResolver()],
         dts: fileURLToPath(new URL('./types/components.d.ts', import.meta.url)),
         dirs: fileURLToPath(new URL('./src/components/auto', import.meta.url)),
         // 只针对vue做处理（/* webpackChunkName: about */将某个组件打成单个文件时）
@@ -100,26 +101,6 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         deleteOriginFile: true //打包后是否删除源文件
       }),
       // brotli({}),
-      // 自动按需引入CDN外链插件
-      // importToCDN({
-      //   modules: [
-      //     {
-      //       name: 'echarts',
-      //       var: 'echarts',
-      //       path: 'https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js'
-      //     }
-      //   ]
-      // }),
-      // or
-      createHtmlPlugin({
-        inject: {
-          data: {
-            // 需要再html中使用的变量<% echartsscript %>
-            echartsscript: `<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>`
-          }
-        }
-      }),
-      globals, // 不加入打包使用外链（cdn）
       manualChunksPlugin() // 静态资源分类打包
     ],
     // 运行后本地预览的服务器
@@ -166,8 +147,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         input: {
           index: fileURLToPath(new URL('./index.html', import.meta.url))
         },
-        // 检测模块的副作用，以避免将无副作用的模块打包到一起
-        experimentalLogSideEffects: true,
+        // 检测模块的副作用，以避免将无副作用的模块打包到一起，会打印警告
+        // experimentalLogSideEffects: true,
         // tree shaking
         treeshake: {
           preset: 'recommended'
@@ -177,14 +158,13 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           // 将依赖单独打包到 vendor 文件中，但无法很好的利用缓存
           manualChunks: (id: string) => {
             // html2canvas只有极少数页面使用，故需要单独处理
-            if (id.includes('html2canvas')) {
-              return 'html2canvas';
-            }
+            // if (id.includes('html2canvas')) {
+            //   return 'html2canvas';
+            // }
             // 将about页面打成一个文件
             // if (id.includes('src/views/about')) {
             //   return 'about';
             // }
-            // 使用unplugin-vue-component和vite-plugin-webpackchunkname将about页面打成一个文件
             // 如果node_modules非常大，可以考虑外链的形式 rollup-plugin-external-globals
             if (id.includes('node_modules')) {
               return 'vendor';
@@ -200,13 +180,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         // chunkFileNames: 'static/js/[name]-[hash].js',
         // entryFileNames: 'static/js/[name]-[hash].js',
         // assetFileNames: 'static/[ext]/[name]-[hash].[ext]'
-        // 将echarts分开打包
-        // manualChunks: {
-        //   echarts: ["echarts"]
         // }
-        // }
-        // 配置外部依赖（不需要打包）
-        // external: ['echarts', 'html2canvas', 'jspdf', 'moment', 'videojs', 'xlsx']
       }
     },
     // 配置别名

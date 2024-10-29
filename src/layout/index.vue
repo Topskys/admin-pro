@@ -1,54 +1,22 @@
 <template>
-  <el-container>
-    <el-header>
-      <Header />
-    </el-header>
-    <el-container class="main-container">
-      <el-aside>
-        <Aside />
-      </el-aside>
-      <el-main>
-        <Breadcrumb />
-        <router-view />
-      </el-main>
-    </el-container>
-  </el-container>
+  <div class="layout">
+    <router-view />
+    <van-tabbar v-model="active" route>
+      <van-tabbar-item replace to="/home" icon="home-o">首页</van-tabbar-item>
+      <van-tabbar-item replace to="/search" icon="search">搜索</van-tabbar-item>
+      <van-tabbar-item replace to="/setting" icon="setting-o">设置</van-tabbar-item>
+    </van-tabbar>
+  </div>
 </template>
 
 <script setup lang="ts">
-import Header from './components/Header.vue';
-import Aside from './components/Aside.vue';
-import Breadcrumb from './components/Breadcrumb.vue';
+let active = ref<string>('/home');
 </script>
 <style lang="less" scoped>
-.el-header {
-  padding: 0;
-  margin-bottom: 5px;
-}
-
-.el-container {
-  height: 100%;
-
-  .el-aside {
-    width: 200px;
-    height: 100%;
-    // height: calc(100vh - 65px);
-  }
-
-  .el-menu {
-    height: 100%;
-  }
-
-  .el-main {
-    padding: 20px;
-  }
-}
-
-.main-container {
-  height: calc(100vh - 65px);
-}
-
-.el-breadcrumb {
-  margin-bottom: 10px;
+.layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>
