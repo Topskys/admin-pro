@@ -12,6 +12,7 @@ declare module 'vue' {
     Tag: (typeof import('./../src/components/auto/Tag.vue'))['default'];
     VanButton: (typeof import('vant/es'))['Button'];
     VanNavBar: (typeof import('vant/es'))['NavBar'];
+    VanNavBareftArrow: (typeof import('vant/es'))['NavBareftArrow'];
     VanNumberKeyboard: (typeof import('vant/es'))['NumberKeyboard'];
     VanTabbar: (typeof import('vant/es'))['Tabbar'];
     VanTabbarItem: (typeof import('vant/es'))['TabbarItem'];
