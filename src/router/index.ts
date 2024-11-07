@@ -50,21 +50,22 @@ const handleRouters = (to: RouteLocationNormalizedGeneric) => {
 router.beforeEach((to, from, next) => {
   // 进度条开始
   NProgress.start();
-  const token = sessionStorage.getItem('userInfo');
-  if (token) {
-    if (to.path === '/login') {
-      next({ path: '/' });
-    } else {
-      next();
-    }
-  } else {
-    if (whiteList.indexOf(to.path) > -1) {
-      next();
-    } else {
-      next('/login');
-    }
-  }
-  handleRouters(to);
+  // const token = sessionStorage.getItem('userInfo');
+  // if (token) {
+  //   if (to.path === '/login') {
+  //     next({ path: '/' });
+  //   } else {
+  //     next();
+  //   }
+  // } else {
+  //   if (whiteList.indexOf(to.path) > -1) {
+  //     next();
+  //   } else {
+  //     next('/login');
+  //   }
+  // }
+  // handleRouters(to);
+  next();
 });
 
 router.afterEach(() => {
