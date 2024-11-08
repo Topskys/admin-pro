@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>基于原生标签封装弹窗</title>
+    <style>
+      #dialog {
+        border-color: #ccc;
+        border-radius: 5px;
+      }
+
+      /* 背景蒙层 */
+      #dialog::backdrop {
+        background-color: rgb(0 0 0 / 50%);
+        backdrop-filter: blur(1px);
+      }
+    </style>
+  </head>
+
+  <body>
+    <button id="btn" onclick="dialog.showModal()">打开模态弹窗</button>
+    <input type="text" id="input" />
+    <dialog id="dialog">
+      <div class="header">Header</div>
+      <div class="content">
+        This a Content of the dialog 兼容性好，但是样式需要自己写 show打开弹窗
+        showModal打开模态弹窗，会将弹窗置于html之外（顶层，top-layer），可以帮助我们解决很多问题（如：tab、click），close关闭弹窗
+        <p><input type="text" id="input" /></p>
+        <p><input type="text" id="input" /></p>
+      </div>
+      <div class="footer">
+        <button id="close">保存</button>
+        <button id="close" onclick="dialog.close()">关闭</button>
+      </div>
+    </dialog>
+    <script></script>
+  </body>
+</html>
