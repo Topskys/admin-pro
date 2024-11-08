@@ -40,7 +40,7 @@
         img.onload = function () {
           // ctx.width = img.width;
           // ctx.height = img.height;
-          ctx.drawImage(img, 0, 0, cvs.width, cvs.height);
+          ctx.drawImage(img, 0, 0, cvs.width * devicePixelRatio, cvs.height * devicePixelRatio);
         };
       }
       init();
