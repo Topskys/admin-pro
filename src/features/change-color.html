@@ -28,6 +28,9 @@
         willReadFrequently: true
       });
       const inpColor = document.querySelector('input[type="color"]');
+      // 保证canvas清晰度
+      // ctx.width = cvs.width * devicePixelRatio;
+      // ctx.height = cvs.height * devicePixelRatio;
 
       // 加载图片并使用 Canvas绘制图片
       const img = new Image();
