@@ -1,5 +1,5 @@
 <template>
-  <ParentComponent>
+  <!-- <ParentComponent>
     <p>default slot 默认插槽1</p>
     <p>default slot 默认插槽2</p>
     <template #slot1>
@@ -9,15 +9,22 @@
       <p>scope slot 作用域插槽-{{ props }}</p>
     </template>
   </ParentComponent>
-  <div class="border"></div>
-  <VirtualList :items="items" :item-height="50" />
+  <div class="border"></div> -->
+  <VirtualList :list-data="items" :item-height="50" />
 </template>
 
 <script setup lang="ts">
-import VirtualList from './VirtualList.vue';
-const items = ref(Array.from({ length: 10000 }, (_, i) => `Item ${i}`));
-import './features';
-import ParentComponent from './features/parentComponent';
+import VirtualList from './features/VirtualList.vue';
+const items = ref(
+  Array.from({ length: 10000000 }, (_, i) => {
+    return {
+      id: i,
+      value: `Item ${i}`
+    };
+  })
+);
+// import './features';
+// import ParentComponent from './features/parentComponent';
 </script>
 <style lang="less">
 #app {
