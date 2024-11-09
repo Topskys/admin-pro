@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>基于canvas绘制签名板</title>
+    <!-- https://symbl.cc/cn/unicode-table/#arrows -->
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+
+      #canvas {
+        width: 100%;
+        height: 100%;
+      }
+
+      .top-tools {
+        position: fixed;
+        top: 3px;
+        left: 50%;
+        z-index: 1;
+        transform: translateX(-50%);
+        background-color: #d8d8d8;
+        border-radius: 4px;
+
+        /* 对于大多数现代浏览器 */
+        -ms-user-select: none;
+
+        /* IE 10+ */
+        -moz-user-select: none;
+
+        /* Firefox */
+        -webkit-user-select: none;
+
+        /* Safari */
+        user-select: none;
+        backdrop-filter: blur(1px);
+        box-shadow:
+          0 0 0 1px rgb(0 0 0 / 5%),
+          0 2px 4px 1px rgb(0 0 0 / 9%);
+      }
+
+      .top-tools button {
+        display: inline-block;
+        padding: 4px;
+        margin: 0 3px;
+        font-size: 1.2em;
+        border-radius: 4px;
+        all: unset;
+        cursor: pointer;
+      }
+
+      .top-tools button:hover {
+        color: #3498db;
+        background-color: #c8c8c8;
+      }
+
+      .checked {
+        color: #3498db;
+        background-color: #c8c8c8;
+      }
+
+      input[type='color'] {
+        all: unset;
+        width: 2em;
+        height: 1.2em;
+        border-radius: 2px;
+      }
+
+      .refresh-icon {
+        animation: spin 0.5s linear 1;
+
+        /* 旋转动画 */
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+
+          /* 初始角度 */
+        }
+
+        to {
+          transform: rotate(360deg);
+
+          /* 旋转360度 */
+        }
+      }
+
+      /* 隐藏复选框 */
+      #eraser {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <div class="top-tools">
+      <button title="颜色选择器"><input type="color" onchange="changeColor(this.value)" /></button>
+      <button title="撤销" onclick="undo()">&#8630;</button>
+      <button title="重做" onclick="redo()">&#8631;</button>
+      <button title="橡皮檫">
+        <input type="checkbox" id="eraser" onchange="changeEraser(this)" />
+        <label for="eraser">🧽</label>
+      </button>
+      <!-- <button title="线条粗细" onclick="">&#10134;</button> &#9866;-->
+      <button title="画笔粗细">
+        <input type="range" min="1" max="30" value="1" step="1" onchange="changeWidth(this.value)" />
+      </button>
+      <button title="保存" onclick="saveCanvas()">&#10003;</button>
+      <button title="清空" onclick="clearCanvas()">&#x21bb;</button>
+    </div>
+
+    <script>
+      const cvs = document.getElementById('canvas');
+      cvs.width = innerWidth * devicePixelRatio;
+      cvs.height = innerHeight * devicePixelRatio;
+
+      const ctx = cvs.getContext('2d', {
+        willReadFrequently: true // 是否启用抗锯齿
+      });
+      // 撤销重做
+      let undoList = [],
+        redoList = [];
+      ctx.lineWidth = ctx.lineWidth * devicePixelRatio;
+
+      cvs.addEventListener('mousedown', (e) => {
+        this.isMouseDown = true; // 鼠标按下
+        ctx.moveTo(e.pageX * devicePixelRatio, e.pageY * devicePixelRatio); // 设置笔触起始位置
+        ctx.beginPath(); // 开始绘制路径，防止之前的点又重新画出来
+      });
+
+      cvs.addEventListener('mousemove', (e) => {
+        if (this.isMouseDown) {
+          ctx.lineTo(e.pageX * devicePixelRatio, e.pageY * devicePixelRatio); // 绘制直线
+          ctx.stroke(); // 绘制路径
+        }
+      });
+
+      cvs.addEventListener('mouseup', (e) => {
+        this.isMouseDown = false;
+        // 保存画布数据，用于撤销
+        undoList.push(ctx.getImageData(0, 0, cvs.width, cvs.height));
+      });
+
+      /**
+       * 修改画笔颜色
+       */
+      function changeColor(color) {
+        ctx.strokeStyle = color;
+      }
+
+      /**
+       * 修改画笔粗细
+       * @param {number} value 线条粗细
+       */
+      function changeWidth(value) {
+        ctx.lineWidth = value * devicePixelRatio;
+      }
+
+      /**
+       * 撤销
+       */
+      function undo() {
+        if (undoList.length > 0) {
+          redoList.push(undoList.pop());
+          reDraw();
+        }
+      }
+
+      /**
+       * 重做
+       */
+      function redo() {
+        if (redoList.length > 0) {
+          undoList.push(redoList.pop());
+          reDraw();
+        }
+      }
+
+      /**
+       * 改变橡皮擦模式
+       * @param checkbox
+       */
+      function changeEraser(checkbox) {
+        const label = document.querySelector(`label[for=${checkbox.id}]`);
+        if (checkbox?.checked) {
+          // 橡皮擦，仅保留画笔外的内容
+          ctx.globalCompositeOperation = 'destination-out';
+          label.classList.add('checked');
+        } else {
+          ctx.globalCompositeOperation = 'source-over';
+          label.classList.remove('checked');
+        }
+      }
+
+      /**
+       * 保存
+       */
+      function saveCanvas() {
+        const a = document.createElement('a');
+        a.href = cvs.toDataURL();
+        a.download = `sign_${Date.now()}.png`;
+        a.click();
+        a.remove();
+      }
+
+      /**
+       * 清除画布
+       */
+      function clearCanvas() {
+        if (!confirm('确定清空画布？')) return;
+        ctx.clearRect(0, 0, cvs.width, cvs.height);
+      }
+
+      /**
+       * 重绘
+       */
+      function reDraw() {
+        if (undoList.length > 0) {
+          ctx.putImageData(undoList[undoList.length - 1], 0, 0);
+        } else {
+          ctx.clearRect(0, 0, cvs.width, cvs.height);
+        }
+      }
+    </script>
+  </body>
+</html>
