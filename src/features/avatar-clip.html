@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>基于canvas实现头像裁剪</title>
+    <!-- https://lccbupt.github.io/2021/01/25/2021-01-25/ -->
+    <!-- 1.23 cAG:/ s@r.rr 11/26 你还不会用canvas做头像裁剪功能吗？看看这个 # 前端 # canvas # 程序员 # 前端实战项目  https://v.douyin.com/iADKHBc3/ 复制此链接，打开Dou音搜索，直接观看视频！ -->
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-size: 14px;
+        color: #333;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+
+        /* align-items: center; */
+        background-color: #f5f5f5;
+      }
+
+      .container {
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+      }
+
+      .title {
+        font-size: 16px;
+      }
+
+      main {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+      }
+
+      #clip-canvas,
+      #preview-canvas {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      .preview {
+        margin-left: 20px;
+      }
+
+      .preview p {
+        text-align: center;
+      }
+
+      input[type='file'] {
+        display: none;
+        margin-top: 10px;
+      }
+
+      footer label {
+        display: inline-block;
+        padding: 3px 5px;
+        margin-top: 10px;
+        background-color: #f8f8f8;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      footer button {
+        float: right;
+        margin-top: 50px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <p class="title">裁剪头像</p>
+      <main>
+        <canvas id="clip-canvas" width="300" height="300"></canvas>
+        <div class="preview">
+          <canvas id="preview-canvas" width="100" height="100"></canvas>
+          <p>预览</p>
+        </div>
+      </main>
+      <footer>
+        <label class="file-label" for="select-file">
+          上传图片
+          <input type="file" accept="image/*" id="select-file" onchange="onFileChange(event)" />
+        </label>
+        <button onclick="download()">下载</button>
+      </footer>
+    </div>
+
+    <script>
+      const clipCvs = document.getElementById('clip-canvas');
+      const prevCvs = document.getElementById('preview-canvas');
+
+      const clipCtx = clipCvs.getContext('2d', {
+        willReadFrequently: true,
+        imageSmoothingQuality: 'high' // 设置抗锯齿质量
+      });
+      const prevCtx = prevCvs.getContext('2d');
+
+      // 绘制黑白交替背景图
+      drawBackground();
+
+      onFileChange();
+
+      clipCvs.addEventListener('mousedown', (e) => {
+        this.isMouseDown = true;
+        // 记录鼠标按下时的坐标
+        this.startX = e.offsetX;
+        this.startY = e.offsetY;
+      });
+
+      clipCvs.addEventListener('mousemove', (e) => {
+        if (!this.isMouseDown) return;
+        // 记录鼠标移动时的坐标
+        this.endX = e.offsetX;
+        this.endY = e.offsetY;
+        // 计算裁剪框宽高
+        const clipWidth = Math.abs(this.endX - this.startX);
+        const clipHeight = Math.abs(this.endY - this.startY);
+        // 绘制蒙层和裁剪框
+        drawMask(this.startX, this.startY, clipWidth, clipHeight);
+      });
+
+      clipCvs.addEventListener('mouseup', (e) => {
+        this.isMouseDown = false;
+      });
+
+      /**
+       * 绘制黑白矩形背景
+       * @param {number} rectSize 矩形尺寸
+       */
+      function drawBackground(rectSize = 5 * devicePixelRatio) {
+        clipCtx.save();
+        const w = clipCvs.width,
+          h = clipCvs.height; // 获取画布尺寸
+        for (let y = 0; y < h; y += rectSize) {
+          for (let x = 0; x < w; x += rectSize) {
+            clipCtx.fillStyle = (x / rectSize + y / rectSize) % 2 === 0 ? '#c8c8c8' : '#f8f8f8';
+            clipCtx.fillRect(x, y, rectSize, rectSize); // 绘制矩形
+          }
+        }
+        clipCtx.restore();
+      }
+
+      /**
+       * 监听文件选择并使用canvas渲染
+       */
+      function onFileChange(e) {
+        // const file = e.target.files[0];
+        // const reader = new FileReader();
+        // reader.readAsDataURL(file);
+        // reader.onload = () => {
+        const img = new Image();
+        img.setAttribute('crossOrigin', 'anonymous');
+        img.src =
+          'https://cn.bing.com/th?id=OHR.YucatanFlamingos_ZH-CN0721673752_UHD.jpg&rf=LaDigue_1920x1080.jpg&pid=hp';
+        // img.src = reader.result;
+        img.onload = () => {
+          // 计算缩放比例
+          const scaleWidth = clipCvs.width / img.width;
+          const scaleHeight = clipCvs.height / img.height;
+          const scale = Math.min(scaleWidth, scaleHeight);
+          const dw = img.width * scale;
+          const dh = img.height * scale;
+          // 将图片绘制到canvas上，居中显示
+          const dx = (clipCvs.width - dw) / 2;
+          const dy = (clipCvs.height - dh) / 2;
+          clipCtx.drawImage(img, dx, dy, dw, dh);
+        };
+        // }
+      }
+
+      /**
+       * 绘制蒙层
+       */
+      function drawMask(sx, sy, width, height) {
+        // clipCtx.clearRect(0, 0, clipCvs.width, clipCvs.height);
+        clipCtx.save();
+        clipCtx.fillStyle = 'rgba(0,0,0,0.5)'; // 半透明黑色
+        // clipCtx.beginPath();
+        clipCtx.fillRect(0, 0, clipCvs.width, clipCvs.height); // 绘制蒙层
+        // // 绘制裁剪区域
+        clipCtx.globalCompositeOperation = 'source-atop';
+        clipCtx.clearRect(sx, sy, width, height);
+        clipCtx.restore();
+        // 让蒙层置于图片顶部
+        // clipCtx.save();
+        // clipCtx.globalCompositeOperation = "destination-over";
+        // clipCtx.restore();
+        // drawRect(clipCtx, sx, sy, width, height, '#000');
+      }
+
+      function drawRect(ctx, x, y, width, height, borderColor) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(x, y, width, height);
+        ctx.closePath();
+        ctx.fillStyle = 'transparent';
+        ctx.strokeStyle = borderColor;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function drawClip(x, y, width, height) {
+        const imgData = clipCtx.getImageData(x, y, width, height); // 获取裁剪区域的像素数据
+        clipCtx.clearRect(0, 0, clipCvs.width, clipCvs.height); // 清空画布
+        clipCtx.putImageData(imgData, 0, 0); // 将裁剪区域的像素数据绘制到画布上
+        drawPreview(); // 绘制预览图
+      }
+
+      function drawPreview() {
+        const clipImg = new Image();
+        clipImg.src = clipCvs.toDataURL('image/png');
+        clipImg.onload = () => {
+          clipCtx.clearRect(0, 0, clipCvs.width, clipCvs.height); // 清空画布
+          const rateWidth = clipCvs.width / width;
+          const rateHeight = clipCvs.height / height;
+          prevCtx.drawImage(clipImg, 0, 0, width, height, 0, 0, width * rateWidth, height * rateHeight);
+        };
+      }
+
+      /**
+       * 下载
+       */
+      function download() {
+        const a = document.createElement('a');
+        a.href = clipCvs.toDataURL();
+        a.download = `avatar_clip_${Date.now()}.png`;
+        a.click();
+        a.remove();
+      }
+    </script>
+  </body>
+</html>
