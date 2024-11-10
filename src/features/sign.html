@@ -22,9 +22,13 @@
         top: 3px;
         left: 50%;
         z-index: 1;
-        transform: translateX(-50%);
+        padding: 4px 8px;
         background-color: #d8d8d8;
         border-radius: 4px;
+        box-shadow:
+          0 0 0 1px rgb(0 0 0 / 5%),
+          0 2px 4px 1px rgb(0 0 0 / 9%);
+        transform: translateX(-50%);
 
         /* 对于大多数现代浏览器 */
         -ms-user-select: none;
@@ -38,22 +42,18 @@
         /* Safari */
         user-select: none;
         backdrop-filter: blur(1px);
-        box-shadow:
-          0 0 0 1px rgb(0 0 0 / 5%),
-          0 2px 4px 1px rgb(0 0 0 / 9%);
       }
 
-      .top-tools button {
-        display: inline-block;
-        padding: 4px;
+      .top-tools span {
+        all: unset;
+        padding: 2px 5px;
         margin: 0 3px;
         font-size: 1.2em;
         border-radius: 4px;
-        all: unset;
         cursor: pointer;
       }
 
-      .top-tools button:hover {
+      .top-tools span:hover {
         color: #3498db;
         background-color: #c8c8c8;
       }
@@ -100,18 +100,18 @@
   <body>
     <canvas id="canvas"></canvas>
     <div class="top-tools">
-      <button title="颜色选择器"><input type="color" onchange="changeColor(this.value)" /></button>
-      <button title="撤销" onclick="undo()">&#8630;</button>
-      <button title="重做" onclick="redo()">&#8631;</button>
-      <button title="橡皮檫">
+      <span title="颜色选择器"><input type="color" onchange="changeColor(this.value)" /></span>
+      <span title="撤销" onclick="undo()">&#8630;</span>
+      <span title="重做" onclick="redo()">&#8631;</span>
+      <span title="橡皮檫">
         <input type="checkbox" id="eraser" onchange="changeEraser(this)" />
         <label for="eraser">🧽</label>
-      </button>
-      <button title="画笔粗细">
+      </span>
+      <span title="画笔粗细">
         <input type="range" min="1" max="30" value="1" step="1" onchange="changeWidth(this.value)" />
-      </button>
-      <button title="保存" onclick="saveCanvas()">&#10003;</button>
-      <button title="清空" onclick="clearCanvas()">&#x21bb;</button>
+      </span>
+      <span title="保存" onclick="saveCanvas()">&#10003;</span>
+      <span title="清空" onclick="clearCanvas()">&#x21bb;</span>
     </div>
 
     <script>
