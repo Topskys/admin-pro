@@ -22,7 +22,7 @@
         top: 3px;
         left: 50%;
         z-index: 1;
-        padding: 4px 8px;
+        padding: 4px;
         background-color: #d8d8d8;
         border-radius: 4px;
         box-shadow:
@@ -120,12 +120,15 @@
       cvs.height = innerHeight * devicePixelRatio;
 
       const ctx = cvs.getContext('2d', {
-        willReadFrequently: true // 是否启用抗锯齿
+        willReadFrequently: true,
+        imageSmoothingQuality: 'high' // 设置抗锯齿质量
       });
       // 撤销重做
       let undoList = [],
         redoList = [];
       ctx.lineWidth = ctx.lineWidth * devicePixelRatio;
+      ctx.lineCap = 'round'; // 设置线条末端样式
+      ctx.lineJoin = 'round'; // 设置线条连接处样式
 
       cvs.addEventListener('mousedown', (e) => {
         this.isMouseDown = true; // 鼠标按下
