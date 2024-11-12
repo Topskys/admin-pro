@@ -69,7 +69,7 @@ function workLoop(deadline) {
     nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
     shouldYield = deadline.timeRemaining() < 1;
   }
-  // nextUnitOfWork = null表示所有任务都执行完成并且还有待提交的工作根
+  // nextUnitOfWork为null表示所有任务都执行完成并且还有待提交的工作根
   if (!nextUnitOfWork && wipRoot) {
     commitRoot(); // 提交fiber树到真实dom
   }
