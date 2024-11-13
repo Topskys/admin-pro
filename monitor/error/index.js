@@ -1,3 +1,5 @@
+import { lazyReportBatch } from '../report';
+
 export default function error() {
   // 捕获资源加载失败的错误 js 、css、图片等
   window.addEventListener(
@@ -17,6 +19,7 @@ export default function error() {
           startTime: e.timeStamp // 错误时间
         };
         // TODO: 上报
+        lazyReportBatch(reportData);
       }
     },
     true
@@ -36,6 +39,7 @@ export default function error() {
       startTime: error.timeStamp
     };
     // TODO: 上报
+    lazyReportBatch(reportData);
   };
   // 捕获promise、async/await错误
   window.addEventListener('unhandledrejection', function (e) {
@@ -47,5 +51,6 @@ export default function error() {
       startTime: e.timeStamp
     };
     // TODO: 上报
+    lazyReportBatch(reportData);
   });
 }

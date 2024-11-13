@@ -1,4 +1,6 @@
-export default function observerrLoad() {
+import { lazyReportBatch } from '../report';
+
+export default function observerLoad() {
   window.addEventListener('pageShow', (event) => {
     requestAnimationFrame(() => {
       ['load'].forEach((type) => {
@@ -8,6 +10,7 @@ export default function observerrLoad() {
           pageUrl: window.location.href,
           startTime: performance.now() - event.timeStamp
         };
+        lazyReportBatch(reportData);
       });
     }, true);
   });

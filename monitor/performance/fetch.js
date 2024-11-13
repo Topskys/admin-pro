@@ -1,3 +1,5 @@
+import { lazyReportBatch } from '../report';
+
 const originalFetch = window.fetch;
 
 function overwriteFetch() {
@@ -22,6 +24,7 @@ function overwriteFetch() {
         reportData.status = res.status;
         reportData.success = res.ok;
         // TODO: 上报
+        lazyReportBatch(reportData);
         return res;
       })
       .catch((err) => {
@@ -31,6 +34,7 @@ function overwriteFetch() {
         reportData.success = false;
         reportData.status = 0;
         // TODO: 上报
+        lazyReportBatch(reportData);
       });
   };
 }

@@ -1,4 +1,6 @@
-export default function observerrEntries() {
+import { lazyReportBatch } from '../report';
+
+export default function observerEntries() {
   if (document.readyState === 'complete') {
     // 页面加载完成时执行
     observerEvent();
@@ -17,7 +19,7 @@ export function observerEvent() {
     console.log(entries);
     for (const entry of entries) {
       if (entry.name === 'resource') {
-        observerr?.disconnect();
+        observer?.disconnect();
         const reportData = {
           name: entry.name, // 资源名称
           type: 'performance', // 类型
@@ -39,11 +41,12 @@ export function observerEvent() {
           response: entry.responseEnd - entry.responseStart // 响应耗时
         };
         // TODO: 上报数据
+        lazyReportBatch(reportData);
       }
     }
   };
 
   // 统计和计算
-  const observerr = new PerformanceObserver(entryHandler);
-  observerr.observerr({ type: ['resource'], buffered: true });
+  const observer = new PerformanceObserver(entryHandler);
+  observer.observer({ type: ['resource'], buffered: true });
 }

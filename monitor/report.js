@@ -1,8 +1,14 @@
 import config from './config';
+import { addCache, clearCache, getCache } from './cache';
+
 export const originalProto = XMLHttpRequest.prototype;
 export const originalOpen = originalProto.open;
 export const originalSend = originalProto.send;
 
+/**
+ * 上報數據
+ * @param {any} data 上報的數據
+ */
 export function report(data) {
   if (!config.url) {
     console.error('请配置上报 url 地址');
@@ -16,6 +22,19 @@ export function report(data) {
   if (!value) {
     // sendBeacon上報失敗，換用圖片或others方式上報
     config.isImageUpload ? imgRequest(reportData) : xhrRequest(reportData);
+  }
+}
+
+/**
+ * 批量上報數據
+ * @param {any} data 上報的數據
+ */
+export function lazyReportBatch(data) {
+  addCache(data);
+  const cacheData = getCache();
+  if (cacheData.length && cacheData.length > config.batchSize) {
+    report(cacheData);
+    clearCache();
   }
 }
 
