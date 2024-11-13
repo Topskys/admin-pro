@@ -9,3 +9,4 @@ dist
 .local
 /bin
 Dockerfile
+monitor
