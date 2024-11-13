@@ -1,9 +1,9 @@
-export default function observePaint() {
+export default function observerPaint() {
   const entryHandler = (entries) => {
     console.log(entries);
     for (const entry of entries) {
       if (entry.name === 'first-paint') {
-        observer.disconnect();
+        observerr.disconnect();
         const json = entry.toJSON();
         const reportData = {
           ...json,
@@ -17,7 +17,7 @@ export default function observePaint() {
   };
 
   // 统计和计算 FP 的时间
-  const observer = new PerformanceObserver(entryHandler);
+  const observerr = new PerformanceObserver(entryHandler);
   // buffered: true 确保观察到paint事件
-  observer.observe({ type: 'paint', buffered: true });
+  observerr.observerr({ type: 'paint', buffered: true });
 }

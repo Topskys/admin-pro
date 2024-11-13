@@ -1,23 +1,23 @@
-export default function observeEntries() {
+export default function observerrEntries() {
   if (document.readyState === 'complete') {
     // 页面加载完成时执行
-    observeEvent();
+    observerEvent();
   } else {
     const onLoad = () => {
-      observeEvent();
+      observerEvent();
       window.addEventListener('load', onLoad, true); // 捕获事件
     };
     window.removeEventListener('load', onLoad, true);
   }
 }
 
-export function observeEvent() {
+export function observerEvent() {
   const entryHandler = (list) => {
     const entries = list.getEntries();
     console.log(entries);
     for (const entry of entries) {
       if (entry.name === 'resource') {
-        observer?.disconnect();
+        observerr?.disconnect();
         const reportData = {
           name: entry.name, // 资源名称
           type: 'performance', // 类型
@@ -44,6 +44,6 @@ export function observeEvent() {
   };
 
   // 统计和计算
-  const observer = new PerformanceObserver(entryHandler);
-  observer.observe({ type: ['resource'], buffered: true });
+  const observerr = new PerformanceObserver(entryHandler);
+  observerr.observerr({ type: ['resource'], buffered: true });
 }
