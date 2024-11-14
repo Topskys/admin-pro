@@ -1,3 +1,8 @@
+import behavior from './behavior';
+import performance from './performance';
+import error from './error';
+import { setConfig } from './config';
+
 /**
  * 錯誤上報插件
  * @module webEyeSDK
@@ -37,7 +42,18 @@ function errorBoundary(err) {
   // TODO: 上報具體錯誤信息
 }
 
+/**
+ * 初始化插件配置
+ */
+export function init(options) {
+  setConfig(options);
+}
+
 export default {
   install,
-  errorBoundary
+  errorBoundary,
+  init,
+  behavior,
+  performance,
+  error
 };
