@@ -158,7 +158,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     build: {
       // 关闭 sourcemap 报错不会映射到源码
       // 優化：開啟 sourcemap 讓線上报错精確映射到源码，打包体积变大且暴露業務源碼，不可取，
-      // 用error-stack-parser和 source-map-js
+      // 用error-stack-parser和 source-map-js，且sourcemap 开启，sourcemap线上换进会放其他服务器
       sourcemap: true,
       // 打包大小超出 400kb 提示警告
       chunkSizeWarningLimit: 400,

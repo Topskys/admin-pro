@@ -10,9 +10,12 @@ const getSourcemap = async (url: string) => {
 /**
  * 通过sourcemap还原源代码
  * @param stackFrame
+ * 用error-stack-parser和 source-map-js，且sourcemap 开启，sourcemap线上换进会放其他服务器
  */
 export const findCodeBySourcemap = async (stackFrame: any) => {
-  const sourcemap = await getSourcemap(stackFrame.sourceMapUrl + '.map');
+  //   const baseUrl = '存放sourcemap的服务器地址';
+  //   const sourcemap = await getSourcemap(baseUrl + stackFrame.fileName + '.map');
+  const sourcemap = await getSourcemap(stackFrame.fileName + '.map');
   const fileContent = sourcemap.data;
   // 解析map文件
   const consumer = await new sourceMap.SourceMapConsumer(fileContent);
@@ -23,5 +26,5 @@ export const findCodeBySourcemap = async (stackFrame: any) => {
   });
   // 还原之后的源代码
   const code = consumer.sourceContentFor(originalPosition.source);
-  console.log(code);
+  console.log('sourcemap还原之后的源代码', code);
 };
