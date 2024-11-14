@@ -91,14 +91,14 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         open: false // 如果存在本地服务端口，将在打包后自动展示
       }),
       // 压缩插件
-      viteCompression({
-        verbose: true,
-        disable: false,
-        threshold: 1024 * 10, // 超过10mb才进行压缩
-        algorithm: 'brotliCompress',
-        ext: '.br',
-        deleteOriginFile: true //打包后是否删除源文件
-      }),
+      // viteCompression({
+      //   verbose: true,
+      //   disable: false,
+      //   threshold: 1024 * 10, // 超过10mb才进行压缩
+      //   algorithm: 'brotliCompress',
+      //   ext: '.br',
+      //   deleteOriginFile: true //打包后是否删除源文件
+      // }),
       // brotli({}),
       // 自动按需引入CDN外链插件
       // importToCDN({
@@ -159,7 +159,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       // 关闭 sourcemap 报错不会映射到源码
       // 優化：開啟 sourcemap 讓線上报错精確映射到源码，打包体积变大且暴露業務源碼，不可取，
       // 用error-stack-parser和 source-map-js
-      sourcemap: false,
+      sourcemap: true,
       // 打包大小超出 400kb 提示警告
       chunkSizeWarningLimit: 400,
       rollupOptions: {
@@ -169,7 +169,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           index: fileURLToPath(new URL('./index.html', import.meta.url))
         },
         // 检测模块的副作用，以避免将无副作用的模块打包到一起
-        experimentalLogSideEffects: true,
+        // experimentalLogSideEffects: true,
         // tree shaking
         treeshake: {
           preset: 'recommended'
