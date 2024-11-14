@@ -2,6 +2,7 @@ import behavior from './behavior/index';
 import performance from './performance/index';
 import error from './error/index';
 import { setConfig } from './config';
+import { lazyReportBatch } from './report';
 
 /**
  * 錯誤上報插件
@@ -21,12 +22,21 @@ window.__webEyeSDK__ = {
 export function install(Vue, options) {
   if (__webEyeSDK__.vue) return;
   __webEyeSDK__.vue = true;
+  setConfig(options);
   const handler = Vue.config.errorHandler;
   Vue.config.errorHandler = function (err, vm, info) {
-    // TODO: 上報具體的錯誤信息
+    // 上報具體的錯誤信息
+    const reportData = {
+      info,
+      error: err?.stack,
+      subType: 'vue',
+      type: 'error',
+      startTime: window.performance.now(),
+      pageUrl: window.location.href
+    };
+    lazyReportBatch(reportData);
     if (handler) {
       handler.call(this, err, vm, info);
-      // console.log('err', err, vm, info, a);
     }
   };
 }
@@ -34,12 +44,22 @@ export function install(Vue, options) {
 /**
  * 針對React項目進行錯誤處理
  * @param {any} err
+ * @param {any} info
  * @returns
  */
-function errorBoundary(err) {
+function errorBoundary(err, info) {
   if (__webEyeSDK__.react) return;
   __webEyeSDK__.react = true;
-  // TODO: 上報具體錯誤信息
+  // 上報具體的錯誤信息
+  const reportData = {
+    info,
+    error: err?.stack,
+    subType: 'react',
+    type: 'error',
+    startTime: window.performance.now(),
+    pageUrl: window.location.href
+  };
+  lazyReportBatch(reportData);
 }
 
 /**

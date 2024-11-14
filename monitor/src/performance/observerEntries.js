@@ -7,9 +7,9 @@ export default function observerEntries() {
   } else {
     const onLoad = () => {
       observerEvent();
-      window.addEventListener('load', onLoad, true); // 捕获事件
+      window.removeEventListener('load', onLoad, true);
     };
-    window.removeEventListener('load', onLoad, true);
+    window.addEventListener('load', onLoad, true); // 捕获事件
   }
 }
 

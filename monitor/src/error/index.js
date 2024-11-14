@@ -18,7 +18,7 @@ export default function error() {
           paths: e.path,
           startTime: e.timeStamp // 错误时间
         };
-        // TODO: 上报
+        // 上报
         lazyReportBatch(reportData);
       }
     },
@@ -38,19 +38,23 @@ export default function error() {
       pageUrl: window.location.href,
       startTime: error.timeStamp
     };
-    // TODO: 上报
+    // 上报
     lazyReportBatch(reportData);
   };
   // 捕获promise、async/await错误
-  window.addEventListener('unhandledrejection', function (e) {
-    const reportData = {
-      type: 'error',
-      subType: 'promise',
-      reason: e.reason,
-      pageUrl: window.location.href,
-      startTime: e.timeStamp
-    };
-    // TODO: 上报
-    lazyReportBatch(reportData);
-  });
+  window.addEventListener(
+    'unhandledrejection',
+    function (e) {
+      const reportData = {
+        type: 'error',
+        subType: 'promise',
+        reason: e.reason,
+        pageUrl: window.location.href,
+        startTime: e.timeStamp
+      };
+      // 上报
+      lazyReportBatch(reportData);
+    },
+    true
+  );
 }

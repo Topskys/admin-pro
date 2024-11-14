@@ -18,12 +18,14 @@ export function report(data) {
     id: generateUniqueId(),
     data
   });
-  // 上報數據
-  const value = beaconRequest(reportData);
-  if (!value) {
-    // sendBeacon上報失敗，換用圖片或others方式上報
-    config.isImageUpload ? imgRequest(reportData) : xhrRequest(reportData);
+  if (!config?.isImageUpload) {
+    // 優先使用sendBeacon上報數據
+    if (window.navigator?.sendBeacon) {
+      return sendBeaconRequest(reportData);
+    }
+    return xhrRequest(reportData);
   }
+  return imgRequest(reportData);
 }
 
 /**
@@ -83,19 +85,19 @@ export function isSupportSendBeacon() {
   return 'sendBeacon' in navigator;
 }
 
-const sendBeacon = isSupportSendBeacon() ? navigator.sendBeacon : xhrRequest;
+// const sendBeacon = isSupportSendBeacon() ? navigator.sendBeacon : xhrRequest;
 
 /**
  * 使用sendBeacon發送上報數據
  * @param {any} data 上報數據
  */
-export function beaconRequest(data) {
+export function sendBeaconRequest(data) {
   let flag = true;
   // 如果瀏覽器空閒時間大於3s會發送上報數據
   if (window.requestIdleCallback) {
     window.requestIdleCallback(
       () => {
-        return (flag = sendBeacon(config.url, data));
+        window.navigator.sendBeacon(config.url, data);
       },
       {
         timeout: 3000
@@ -103,7 +105,7 @@ export function beaconRequest(data) {
     );
   } else {
     setTimeout(() => {
-      return (flag = sendBeacon(config.url, data));
+      window.navigator.sendBeacon(config.url, data);
     });
   }
 }
