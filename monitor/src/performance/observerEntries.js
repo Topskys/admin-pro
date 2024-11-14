@@ -16,7 +16,6 @@ export default function observerEntries() {
 export function observerEvent() {
   const entryHandler = (list) => {
     const entries = list.getEntries();
-    console.log(entries);
     for (const entry of entries) {
       if (entry.name === 'resource') {
         observer?.disconnect();

@@ -3,7 +3,6 @@ import { lazyReportBatch } from '../report';
 export default function observerLCP() {
   const entryHandler = (list) => {
     const entries = list.getEntries();
-    console.log(entries);
     for (const entry of entries) {
       if (entry.name === 'first-contentful-paint') {
         observer.disconnect();
@@ -14,7 +13,7 @@ export default function observerLCP() {
           subType: entry.name,
           url: window.location.href
         };
-        // TODO: 上报数据
+        // 上报数据
         lazyReportBatch(reportData);
       }
     }
@@ -22,5 +21,5 @@ export default function observerLCP() {
 
   // 统计和计算 LCP
   const observer = new PerformanceObserver(entryHandler);
-  observer.observe({ type: 'first-contentful-paint', buffered: true });
+  observer.observe({ type: 'paint', buffered: true });
 }

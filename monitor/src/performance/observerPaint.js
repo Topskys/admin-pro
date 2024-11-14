@@ -1,8 +1,8 @@
 import { lazyReportBatch } from '../report';
 
 export default function observerPaint() {
-  const entryHandler = (entries) => {
-    console.log(entries);
+  const entryHandler = (list) => {
+    const entries = list.getEntries();
     for (const entry of entries) {
       if (entry.name === 'first-paint') {
         observer.disconnect();
@@ -13,7 +13,7 @@ export default function observerPaint() {
           subType: entry.name,
           url: window.location.href
         };
-        // TODO: 上报数据
+        // 上报数据
         lazyReportBatch(reportData);
       }
     }

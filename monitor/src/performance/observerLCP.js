@@ -3,20 +3,17 @@ import { lazyReportBatch } from '../report';
 export default function observerLCP() {
   const entryHandler = (list) => {
     const entries = list.getEntries();
-    console.log(entries);
+    observer?.disconnect();
     for (const entry of entries) {
-      if (entry.name === 'largest-contentful-paint') {
-        observer.disconnect();
-        const json = entry.toJSON();
-        const reportData = {
-          ...json,
-          type: 'performance',
-          subType: entry.name,
-          url: window.location.href
-        };
-        // TODO: 上报数据
-        lazyReportBatch(reportData);
-      }
+      const json = entry.toJSON();
+      const reportData = {
+        ...json,
+        type: 'performance',
+        subType: entry.name,
+        pageUrl: window.location.href
+      };
+      // TODO: 上报数据
+      lazyReportBatch(reportData);
     }
   };
 
