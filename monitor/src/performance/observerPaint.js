@@ -22,5 +22,5 @@ export default function observerPaint() {
   // 统计和计算 FP 的时间
   const observer = new PerformanceObserver(entryHandler);
   // buffered: true 确保观察到paint事件
-  observer.observer({ type: 'paint', buffered: true });
+  observer.observe({ type: 'paint', buffered: true });
 }

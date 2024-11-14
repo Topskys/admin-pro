@@ -48,5 +48,5 @@ export function observerEvent() {
 
   // 统计和计算
   const observer = new PerformanceObserver(entryHandler);
-  observer.observer({ type: ['resource'], buffered: true });
+  observer.observe({ type: ['resource'], buffered: true });
 }

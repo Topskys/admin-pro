@@ -22,5 +22,5 @@ export default function observerLCP() {
 
   // 统计和计算 LCP
   const observer = new PerformanceObserver(entryHandler);
-  observer.observer({ type: 'largest-contentful-paint', buffered: true });
+  observer.observe({ type: 'largest-contentful-paint', buffered: true });
 }
