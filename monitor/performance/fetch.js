@@ -21,8 +21,9 @@ function overwriteFetch() {
         const endTime = Date.now();
         reportData.endTime = endTime;
         reportData.duration = endTime - startTime;
-        reportData.status = res.status;
-        reportData.success = res.ok;
+        const data = res.clone();
+        reportData.status = data.status;
+        reportData.success = data.ok;
         // TODO: 上报
         lazyReportBatch(reportData);
         return res;

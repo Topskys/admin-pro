@@ -1,5 +1,6 @@
 import config from './config';
 import { addCache, clearCache, getCache } from './cache';
+import { generateUniqueId } from './utils';
 
 export const originalProto = XMLHttpRequest.prototype;
 export const originalOpen = originalProto.open;
@@ -36,14 +37,6 @@ export function lazyReportBatch(data) {
     report(cacheData);
     clearCache();
   }
-}
-
-/**
- * 生成唯一id
- * @returns string
- */
-function generateUniqueId() {
-  return 'id-' + Date.now() + '-' + Math.random().toString(36).substring(2, 9);
 }
 
 /**

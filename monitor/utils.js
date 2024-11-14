@@ -15,3 +15,11 @@ export function deepCopy(target) {
   }
   return result;
 }
+
+/**
+ * 生成唯一id
+ * @returns string
+ */
+export function generateUniqueId() {
+  return 'id-' + Date.now() + '-' + Math.random().toString(36).substring(2, 9);
+}
