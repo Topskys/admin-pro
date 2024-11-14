@@ -1,1 +1,0 @@
-import{aR as r,aS as t}from"./request-jmr87h59.js";const n=async s=>t({},"/login",s),o=async s=>t({},"/getUserInfo",s),a=async s=>r({url:"/getAuthList",method:"get",data:s});export{a as g,n as l,o as r};
