@@ -1,5 +1,8 @@
 <template>
   <div v-if="isErr">
+    <pre>
+      {{ js_error.stack }}
+    </pre>
     <el-collapse v-model="activeNames" @change="handleChange">
       <el-collapse-item v-for="(item, index) in js_error.stack_frames" :key="index" :title="item.source" :name="index">
         <el-row :gutter="20">
@@ -9,7 +12,10 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <template v-if="item.originalSource">{{ item.originalSource }}</template>
+          <template v-if="item.originalSource">
+            <!-- {{ item.originalSource }} -->
+            <Preview :origin="item.originalSource" />
+          </template>
           <template v-else>{{ item.functionName }}</template>
         </el-row>
       </el-collapse-item>
@@ -31,6 +37,7 @@
 import { ElMessage } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import sourceMap from 'source-map-js';
+import Preview from './Preview.vue';
 
 const js_error = ref<any>([]);
 const isErr = ref(false);
@@ -93,7 +100,7 @@ const getSource = async (sourcemap: any, line: number, column: number) => {
     const consumer = await new sourceMap.SourceMapConsumer(JSON.parse(sourcemap));
     const originalPosition = consumer.originalPositionFor({ line, column });
     const source = consumer.sourceContentFor(originalPosition.source);
-    console.log('source', source);
+    // console.log('本地报错404source', source);
     return {
       source: source,
       line: originalPosition.line,
