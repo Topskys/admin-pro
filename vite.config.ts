@@ -191,6 +191,9 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
             if (id.includes('node_modules')) {
               return 'vendor';
             }
+            if (id.includes('src/views/error/ErrorView')) {
+              return 'errorView';
+            }
             return 'index';
           },
           // 将小于 20kb 的模块合并到一个文件中，以更好地利用缓存（rollup@3.3+），有副作用代码则无效，需要manualChunks配合

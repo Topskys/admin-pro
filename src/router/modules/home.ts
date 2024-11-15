@@ -105,6 +105,24 @@ export default {
           }
         }
       ]
+    },
+    {
+      path: '/errorView',
+      name: 'ErrorViewPage',
+      component: () => import('@/views/error/ErrorView.vue'),
+      meta: {
+        isShow: true,
+        title: '生产错误'
+      }
+    },
+    {
+      path: '/errorList',
+      name: 'ErrorListPage',
+      component: () => import('@/views/error/ErrorList.vue'),
+      meta: {
+        isShow: true,
+        title: '错误列表'
+      }
     }
   ]
 };

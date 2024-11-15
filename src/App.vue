@@ -11,7 +11,10 @@
 </ParentComponent>
 <div class="border"></div> -->
   <!-- <VirtualList :list-data="items" :item-height="50" /> -->
-  <div><button @click="jsErr">測試monitor捕獲vue框架錯誤</button></div>
+  <!-- <div><button @click="jsErr">測試monitor捕獲vue框架錯誤</button></div>
+  <RouterLink to="/">首页</RouterLink>
+  <RouterLink to="/errorView">js错误收集</RouterLink> -->
+  <RouterView />
 </template>
 
 <script setup lang="ts">

@@ -33,7 +33,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-unused-vars': 'off',
     indent: [
-      'error',
+      'off',
       2,
       {
         SwitchCase: 1

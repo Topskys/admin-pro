@@ -3,9 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>基于canvas绘制签名板</title>
+    <title>基于canvas实现电子签名</title>
     <!-- https://symbl.cc/cn/unicode-table/#arrows -->
     <style>
+      /* 通配符 */
       * {
         padding: 0;
         margin: 0;
@@ -30,21 +31,24 @@
           0 2px 4px 1px rgb(0 0 0 / 9%);
         transform: translateX(-50%);
 
-        /* 对于大多数现代浏览器 */
+        /* IE 10+ */
         -ms-user-select: none;
 
-        /* IE 10+ */
+        /* Firefox */
         -moz-user-select: none;
 
-        /* Firefox */
+        /* Safari */
         -webkit-user-select: none;
 
-        /* Safari */
+        /* 禁止用户选中文本 */
         user-select: none;
+
+        /* 背景模糊 */
         backdrop-filter: blur(1px);
       }
 
       .top-tools span {
+        /* 重置样式 */
         all: unset;
         padding: 2px 5px;
         margin: 0 3px;
@@ -71,22 +75,19 @@
       }
 
       .refresh-icon {
-        animation: spin 0.5s linear 1;
-
         /* 旋转动画 */
+        animation: spin 0.5s linear 1;
       }
 
       @keyframes spin {
         from {
-          transform: rotate(0deg);
-
           /* 初始角度 */
+          transform: rotate(0deg);
         }
 
         to {
-          transform: rotate(360deg);
-
           /* 旋转360度 */
+          transform: rotate(360deg);
         }
       }
 
@@ -120,7 +121,7 @@
       cvs.height = innerHeight * devicePixelRatio;
 
       const ctx = cvs.getContext('2d', {
-        willReadFrequently: true,
+        willReadFrequently: true, // 开启频繁读取画布，浏览器会做一些优化
         imageSmoothingQuality: 'high' // 设置抗锯齿质量
       });
       // 撤销重做
