@@ -18,6 +18,7 @@ export default {
   },
   methods: {
     preLine() {
+      console.log('------origin--------', this.origin);
       // 错误的行数
       const line = this.origin.line;
       // 先获取源码有多少行
