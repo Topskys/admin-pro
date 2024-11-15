@@ -93,6 +93,7 @@ const sourcemapUpload = async (file: any) => {
     js_error.value.stack_frames[stackFrameObj.index].originalSource = code;
     dialogVisible.value = false;
   };
+  return false; // 不写这一行会报错
 };
 
 const getSource = async (sourcemap: any, line: number, column: number) => {
