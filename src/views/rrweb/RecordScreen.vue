@@ -1,5 +1,5 @@
 <template>
-  <div id="record">
+  <div id="record" class="flex-col justify-center items-center">
     <div class="button-wrap">
       <el-button type="primary" @click="onStart">开始录制</el-button>
       <el-button type="primary" @click="onStop">结束录制</el-button>
@@ -55,9 +55,10 @@
 </template>
 <script lang="ts" setup>
 import type { eventWithTime } from '@rrweb/types';
-import * as rrweb from 'rrweb';
+import * as rrweb from 'rrweb'; // 需要禁用浏览器扩展，否则会报错不可用
 import { reactive } from 'vue';
-import { useEventStore } from '@/stores/rrweb/eventStore';
+import { useEventStore } from '@/store/rrweb/eventStore';
+
 const eventStore = useEventStore();
 let events: eventWithTime[] = [];
 let stopFn: undefined | (() => void);
@@ -78,7 +79,7 @@ const onSubmit = () => {
 };
 const onStart = () => {
   stopFn = rrweb.record({
-    emit: (event) => {
+    emit(event) {
       console.log('event', JSON.stringify(event));
       events.push(event);
     },

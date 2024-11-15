@@ -109,7 +109,7 @@ export default {
     {
       path: '/errorView',
       name: 'ErrorViewPage',
-      component: () => import('@/views/error/ErrorView.vue'),
+      component: () => import('@/views/sourcemap/ErrorView.vue'),
       meta: {
         isShow: true,
         title: '生产错误'
@@ -118,7 +118,7 @@ export default {
     {
       path: '/errorList',
       name: 'ErrorListPage',
-      component: () => import('@/views/error/ErrorList.vue'),
+      component: () => import('@/views/sourcemap/ErrorList.vue'),
       meta: {
         isShow: true,
         title: '错误列表'
@@ -126,7 +126,7 @@ export default {
     },
     {
       path: '/recordScreen',
-      name: 'ErrorViewPage',
+      name: 'RecordScreenPage',
       component: () => import('@/views/rrweb/RecordScreen.vue'),
       meta: {
         isShow: true,
@@ -135,7 +135,7 @@ export default {
     },
     {
       path: '/playScreen',
-      name: 'ErrorViewPage',
+      name: 'PlayScreenPage',
       component: () => import('@/views/rrweb/PlayScreen.vue'),
       meta: {
         isShow: true,

@@ -47,7 +47,7 @@ const tabActiveName = ref('local');
 let stackFrameObj = {
   line: 0,
   column: 0,
-  index: null
+  index: 0
 };
 
 const getErrorList = () => {
@@ -66,7 +66,7 @@ onMounted(() => {
 });
 
 const handleChange = (val: string) => {
-  //   console.log(val);
+  tabActiveName.value = val;
 };
 
 const openDialog = (item: any, index: number) => {

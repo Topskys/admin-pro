@@ -8,7 +8,7 @@
 <script setup lang="ts">
 import rrwebPlayer from 'rrweb-player';
 import 'rrweb-player/dist/style.css';
-import { useEventStore } from '@/stores/rrweb/eventStore';
+import { useEventStore } from '@/store/rrweb/eventStore';
 const eventStore = useEventStore();
 let events = eventStore.getEvents();
 const onPlay = () => {
