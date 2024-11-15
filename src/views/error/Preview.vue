@@ -18,11 +18,11 @@ export default {
   },
   methods: {
     preLine() {
-      console.log('------origin--------', this.origin);
+      console.log('------origin--------', this.origin, this.origin?.line, this.origin?.source);
       // 错误的行数
       const line = this.origin.line;
       // 先获取源码有多少行
-      const originCodeLine = this.origin.source.split('\n');
+      const originCodeLine = this.origin?.source?.split('\n');
       const len = originCodeLine.length - 1;
       const start = line - 3 >= 0 ? line - 3 : 0;
       const end = start + 5 >= len ? len : start + 5; // 最多展示6行
