@@ -90,7 +90,7 @@ const sourcemapUpload = async (file: any) => {
   reader.readAsText(file);
   reader.onload = async function (e: any) {
     const code = await getSource(e?.target?.result, stackFrameObj.line, stackFrameObj.column);
-    js_error.value.stack_frames[stackFrameObj.index].originalSource = code?.source;
+    js_error.value.stack_frames[stackFrameObj.index].originalSource = code;
     dialogVisible.value = false;
   };
 };
