@@ -123,6 +123,24 @@ export default {
         isShow: true,
         title: '错误列表'
       }
+    },
+    {
+      path: '/recordScreen',
+      name: 'ErrorViewPage',
+      component: () => import('@/views/rrweb/RecordScreen.vue'),
+      meta: {
+        isShow: true,
+        title: 'rrweb录屏'
+      }
+    },
+    {
+      path: '/playScreen',
+      name: 'ErrorViewPage',
+      component: () => import('@/views/rrweb/PlayScreen.vue'),
+      meta: {
+        isShow: true,
+        title: '播放录屏'
+      }
     }
   ]
 };
