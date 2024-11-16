@@ -1,5 +1,6 @@
 <template>
   <div class="play">
+    <div class="text-red font-800 h-30 text-center bg-blue-600">dddd</div>
     <el-button type="primary" @click="onPlay">回放</el-button>
     <hr />
     <div id="doPlay"></div>

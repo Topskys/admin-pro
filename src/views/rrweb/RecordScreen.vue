@@ -1,10 +1,9 @@
 <template>
-  <div id="record" class="flex-col justify-center items-center">
-    <div class="button-wrap">
+  <div id="record">
+    <div class="flex justify-center mb-[20px]">
       <el-button type="primary" @click="onStart">开始录制</el-button>
       <el-button type="primary" @click="onStop">结束录制</el-button>
     </div>
-    <h2>form</h2>
     <el-form :model="form" label-width="auto" style="max-width: 600px">
       <el-form-item label="Activity name">
         <el-input v-model="form.name" />
