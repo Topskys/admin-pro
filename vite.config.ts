@@ -191,7 +191,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
             if (id.includes('node_modules')) {
               return 'vendor';
             }
-            if (id.includes('src/views/error/ErrorView')) {
+            if (id.includes('src/views/sourcemap/ErrorView')) {
               return 'errorView';
             }
             return 'index';
