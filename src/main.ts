@@ -3,7 +3,6 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import './styles/index.less';
-import 'tailwindcss/tailwind.css';
 // import { registerECharts } from './plugins/echarts';
 // import monitor from '../monitor/dist/monitor.esm.js'; // 性能监控
 import ErrorStackParser from 'error-stack-parser';
