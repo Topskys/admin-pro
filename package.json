@@ -65,7 +65,6 @@
     "stylelint-config-standard-vue": "^1.0.0",
     "stylelint-less": "^2.0.0",
     "stylelint-order": "^6.0.3",
-    "tailwindcss": "^3.4.15",
     "typescript": "^5.2.2",
     "unplugin-auto-import": "^0.16.7",
     "unplugin-element-plus": "^0.8.0",

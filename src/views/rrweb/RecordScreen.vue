@@ -1,6 +1,6 @@
 <template>
   <div id="record">
-    <div class="flex justify-center mb-[20px]">
+    <div>
       <el-button type="primary" @click="onStart">开始录制</el-button>
       <el-button type="primary" @click="onStop">结束录制</el-button>
     </div>

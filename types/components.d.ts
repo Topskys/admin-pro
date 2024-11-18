@@ -40,6 +40,7 @@ declare module 'vue' {
     ElTabPane: (typeof import('element-plus/es'))['ElTabPane'];
     ElTabs: (typeof import('element-plus/es'))['ElTabs'];
     ElTimePicker: (typeof import('element-plus/es'))['ElTimePicker'];
+    ElTree: (typeof import('element-plus/es'))['ElTree'];
     ElUpload: (typeof import('element-plus/es'))['ElUpload'];
     IEpClose: (typeof import('~icons/ep/close'))['default'];
     IEpSetting: (typeof import('~icons/ep/setting'))['default'];
