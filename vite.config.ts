@@ -156,15 +156,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     },
     // 打包配置
     build: {
-      // 关闭 sourcemap 报错不会映射到源码
-      // 優化：開啟 sourcemap 讓線上报错精確映射到源码，打包体积变大且暴露業務源碼，不可取，
-      // 用error-stack-parser和 source-map-js，且sourcemap 开启，sourcemap线上换进会放其他服务器
       sourcemap: true,
       // 打包大小超出 400kb 提示警告
       chunkSizeWarningLimit: 400,
       rollupOptions: {
-        // 打包入口文件 根目录下的 index.html
-        // 也就是项目从哪个文件开始打包
+        // 打包入口文件
         input: {
           index: fileURLToPath(new URL('./index.html', import.meta.url))
         },
@@ -178,10 +174,6 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         output: {
           // 将依赖单独打包到 vendor 文件中，但无法很好的利用缓存
           manualChunks: (id: string) => {
-            // html2canvas只有极少数页面使用，故需要单独处理
-            if (id.includes('html2canvas')) {
-              return 'html2canvas';
-            }
             // 将about页面打成一个文件
             // if (id.includes('src/views/about')) {
             //   return 'about';
@@ -191,27 +183,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
             if (id.includes('node_modules')) {
               return 'vendor';
             }
-            if (id.includes('src/views/sourcemap/ErrorView')) {
-              return 'errorView';
-            }
             return 'index';
           },
           // 将小于 20kb 的模块合并到一个文件中，以更好地利用缓存（rollup@3.3+），有副作用代码则无效，需要manualChunks配合
           experimentalMinChunkSize: 20 * 1024
         }
-        // output: {
-        // 将依赖单独打包到 vendor 文件中，并利用缓存
-        // format: 'esm',
-        // chunkFileNames: 'static/js/[name]-[hash].js',
-        // entryFileNames: 'static/js/[name]-[hash].js',
-        // assetFileNames: 'static/[ext]/[name]-[hash].[ext]'
-        // 将echarts分开打包
-        // manualChunks: {
-        //   echarts: ["echarts"]
-        // }
-        // }
-        // 配置外部依赖（不需要打包）
-        // external: ['echarts', 'html2canvas', 'jspdf', 'moment', 'videojs', 'xlsx']
       }
     },
     // 配置别名
