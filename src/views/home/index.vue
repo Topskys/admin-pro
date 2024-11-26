@@ -31,8 +31,6 @@
 </template>
 
 <script setup lang="ts">
-import { getProjectList } from '@/api/project';
-
 interface IProject {
   id: number;
   userId: number;
@@ -51,10 +49,11 @@ let searchData = reactive({
 
 // 请求项目列表总数据
 const fetchData = () => {
-  getProjectList().then((res) => {
-    projectList.value = res || [];
-    searchData.dataCount = res.length;
-  });
+  projectList.value = [
+    { id: 1, userId: 102, title: '测试项目', introduce: '测试项目描述' },
+    { id: 2, userId: 103, title: '测试项目2', introduce: '测试项目2描述' }
+  ];
+  searchData.dataCount = projectList.value.length;
 };
 
 onMounted(() => {

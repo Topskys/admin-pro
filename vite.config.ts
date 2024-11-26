@@ -17,22 +17,14 @@ import externalGlobals from 'rollup-plugin-external-globals';
 import brotli from 'rollup-plugin-brotli';
 import { createHtmlPlugin } from 'vite-plugin-html'; // 自动导入cdn
 import { manualChunksPlugin } from 'vite-plugin-webpackchunkname';
-
-// 不加入打包使用外链
-const globals = externalGlobals({
-  mement: 'moment',
-  jspdf: 'jspdf',
-  xlsx: 'XLSX',
-  echarts: 'echarts',
-  'video.js': 'videojs'
-});
+import { preloadImagePlugin } from './src/plugins/vite-preload-image-plugin';
 
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   // 获取当前工作目录
   const root = process.cwd();
   // 获取环境变量
   const env = loadEnv(mode, root);
-  console.log(env);
+  // console.log(env);
   return {
     // 项目根目录
     root,
@@ -54,6 +46,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       vue(),
       // jsx文件编译插件
       vueJsx(),
+      preloadImagePlugin({ dir: 'images/*.{png,jpg,svg}' }),
       // 开启mock服务器
       viteMockServe({
         // 如果接口为 /mock/xxx 以 mock 开头就会被拦截响应配置的内容
@@ -81,15 +74,15 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         // 只针对vue做处理（/* webpackChunkName: about */将某个组件打成单个文件时）
         include: [/\.vue$/, /\.vue\?/]
       }),
-      Icons({ autoInstall: true }),
+      Icons({ autoInstall: true })
       // 打包分析插件
-      visualizer({
-        gzipSize: true,
-        brotliSize: true,
-        // emitFile: false,
-        // filename: "test.html", //分析图生成的文件名
-        open: false // 如果存在本地服务端口，将在打包后自动展示
-      }),
+      // visualizer({
+      //   gzipSize: true,
+      //   brotliSize: true,
+      //   // emitFile: false,
+      //   // filename: "test.html", //分析图生成的文件名
+      //   open: false // 如果存在本地服务端口，将在打包后自动展示
+      // }),
       // 压缩插件
       // viteCompression({
       //   verbose: true,
@@ -111,16 +104,15 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       //   ]
       // }),
       // or
-      createHtmlPlugin({
-        inject: {
-          data: {
-            // 需要再html中使用的变量<% echartsscript %>
-            echartsscript: `<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>`
-          }
-        }
-      }),
-      globals, // 不加入打包使用外链（cdn）
-      manualChunksPlugin() // 静态资源分类打包
+      // createHtmlPlugin({
+      //   inject: {
+      //     data: {
+      //       // 需要再html中使用的变量<% echartsscript %>
+      //       echartsscript: `<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>`
+      //     }
+      //   }
+      // }),
+      // manualChunksPlugin() // 静态资源分类打包
     ],
     // 运行后本地预览的服务器
     server: {
@@ -151,6 +143,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           changeOrigin: true
           // 发起请求时将 '/api' 替换为 ''
           //rewrite: (path) => path.replace(/^\/api/, ""),
+        },
+        '/pic': {
+          target: 'https://api.likepoems.com',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/pic/, '')
         }
       }
     },

@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>利用Canvas修改图片色块</title>
+    <style>
+      body {
+        text-align: center;
+      }
+
+      #canvas {
+        border: 1px solid #cecccc;
+      }
+
+      input[type='color'] {
+        all: unset;
+        width: 40px;
+        height: 30px !important;
+      }
+
+      .tools {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5px 10px;
+        background-color: #cecccc;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="tools">
+      <input type="color" />
+      <input type="file" onchange="onFileChange(this)" />
+      <button onclick="downloadCanvas()">下载</button>
+    </div>
+    <canvas id="canvas" width="307" height="437"></canvas>
+    <script type="text/javascript">
+      const cvs = document.getElementById('canvas');
+      const dpr = window.devicePixelRatio || 1;
+      cvs.width = cvs.width * dpr;
+      cvs.height = cvs.height * dpr;
+
+      const ctx = cvs.getContext('2d', {
+        // 是否启用抗锯齿
+        willReadFrequently: true,
+        // 抗锯齿质量
+        imageSmoothingQuality: 'high'
+      });
+
+      ctx.scale(dpr, dpr);
+
+      const inpColor = document.querySelector('input[type="color"]');
+      // 保证canvas清晰度
+
+      // 加载图片并使用 Canvas绘制图片
+      const img = new Image();
+      function init(src) {
+        img.src = src || 'https://s.cn.bing.net/th?id=OHR.GlacialRivers_ZH-CN0260507556_1920x1080.webp&qlt=50';
+        img.setAttribute('crossOrigin', 'anonymous');
+        img.onload = function () {
+          const w = img.width;
+          const h = img.height;
+          ctx.drawImage(img, 0, 0, cvs.width / dpr, cvs.height / dpr);
+        };
+      }
+      init();
+
+      function onFileChange(e) {
+        console.log(e.files);
+        const file = e.files[0];
+        const read = new FileReader();
+        read.readAsDataURL(file);
+        read.onload = () => {
+          init(read.result);
+        };
+      }
+
+      cvs.addEventListener('click', function (e) {
+        // 获取鼠标点击的坐标
+        const x = e.offsetX;
+        const y = e.offsetY;
+        // 获取像素rgba数据
+        const imageData = ctx.getImageData(0, 0, cvs.width, cvs.height);
+        const cvsColors = imageData.data; // rgba一维数组，每四个值代表一个像素色值
+        // 获取颜色选择器的颜色值并转换为rgba数组
+        const hex = inpColor.value;
+        const targetColor = hex2Rgba(hex);
+        // 获取鼠标点击位置的颜色
+        const clickColor = getColor(x, y, cvsColors);
+        // 修改像素颜色
+        changeColorLoop(x, y, cvsColors, targetColor, clickColor);
+        // 将修改后的像素数据绘制到canvas上
+        ctx.putImageData(imageData, 0, 0);
+      });
+
+      /**
+       * 将坐标转换为像素索引
+       * @param {number} x
+       * @param {number} y
+       * @returns {number} 像素索引
+       */
+      function point2Index(x, y) {
+        return (y * cvs.width + x) * 4;
+      }
+
+      /**
+       * 修改像素颜色
+       * 注意：递归修改像素颜色，可能会导致栈溢出，可换成循环
+       * @param {number} x
+       * @param {number} y
+       * @param {Array} cvsColors
+       * @param {Array} targetColor 目标颜色
+       * @param {Array} clickColor 点击颜色
+       */
+      function changeColor(x, y, cvsColors, targetColor, clickColor) {
+        // 递归终止条件
+        if (x < 0 || x >= cvs.width || y < 0 || y >= cvs.height) return;
+        // 当前像素点颜色
+        const curColor = getColor(x, y, cvsColors);
+        // 递归终止条件，如果当前像素颜色与目标颜色相同则终止
+        if (diff(curColor, targetColor) === 0) return;
+        // 比较点击颜色与当前颜色差异，如果大于50则终止递归
+        if (diff(curColor, clickColor) > 50) {
+          return;
+        }
+        // 获取像素索引并修改该索引像素的rgba值
+        const index = point2Index(x, y);
+        cvsColors.set(targetColor, index);
+        // 改变x,y四周像素点的颜色（上右下左）
+        changeColor(x - 1, y, cvsColors, targetColor, clickColor);
+        changeColor(x + 1, y, cvsColors, targetColor, clickColor);
+        changeColor(x, y - 1, cvsColors, targetColor, clickColor);
+        changeColor(x, y + 1, cvsColors, targetColor, clickColor);
+      }
+
+      function changeColorLoop(startX, startY, cvsColors, targetColor, clickColor) {
+        // 创建一个栈来保存待处理的坐标
+        const stack = [];
+        stack.push({ x: startX, y: startY });
+
+        while (stack.length > 0) {
+          const { x, y } = stack.pop(); // 弹出栈顶元素
+
+          // 递归终止条件
+          if (x < 0 || x >= cvs.width || y < 0 || y >= cvs.height) continue;
+          // 当前像素点颜色
+          const curColor = getColor(x, y, cvsColors);
+          // 递归终止条件，如果当前像素颜色与目标颜色相同则终止
+          if (diff(curColor, targetColor) === 0) continue;
+          // 比较点击颜色与当前颜色差异，如果大于50则终止递归
+          if (diff(curColor, clickColor) > 50) {
+            continue;
+          }
+          // 获取像素索引并修改该索引像素的rgba值
+          const index = point2Index(x, y);
+          cvsColors.set(targetColor, index);
+
+          // 将相邻的四个坐标（上右下左）压入栈中，以便后续处理
+          stack.push({ x: x - 1, y: y });
+          stack.push({ x: x + 1, y: y });
+          stack.push({ x: x, y: y - 1 });
+          stack.push({ x: x, y: y + 1 });
+        }
+      }
+
+      /**
+       * 将16进制颜色转换为rgba数组
+       * @param {string} hex 16进制颜色
+       * @returns {Array} rgba数组
+       */
+      function hex2Rgba(hex) {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        return [r, g, b, 255];
+      }
+
+      /**
+       * 获取像素颜色
+       * @param {number} x
+       * @param {number} y
+       * @param {Array} cvsColor
+       * @returns {Array} rgba数组
+       */
+      function getColor(x, y, cvsColor) {
+        const index = point2Index(x, y);
+        return cvsColor.slice(index, index + 4);
+      }
+
+      /**
+       * 计算两个颜色之间的差异
+       * @param {Array} color1
+       * @param {Array} color2
+       * @returns {number} 差异值
+       */
+      function diff(color1, color2) {
+        return Math.abs(color1[0] - color2[0]) + Math.abs(color1[1] - color2[1]) + Math.abs(color1[2] - color2[2]);
+      }
+
+      /**
+       * 下载canvas图片
+       */
+      function downloadCanvas() {
+        const a = document.createElement('a');
+        a.href = cvs.toDataURL({
+          type: 'image/png',
+          quality: 1
+          // width: img.width,
+          // height: img.height
+        });
+        a.download = 'image.png'; // 设置下载文件名
+        a.click();
+        a.remove();
+      }
+    </script>
+  </body>
+</html>
