@@ -141,6 +141,15 @@ export default {
         isShow: true,
         title: '播放录屏'
       }
+    },
+    {
+      path: '/watermark',
+      name: 'WatermarkPage',
+      component: () => import('@/views/watermark/index.vue'),
+      meta: {
+        isShow: true,
+        title: '水印测试'
+      }
     }
   ]
 };
