@@ -14,7 +14,8 @@ jobs:
     steps: # 步骤
       # 官方action，将代码拉取到虚拟机
       - name: Checkout
-        uses: actions/checkout@v2
+        # uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           persist-credentials: false # 这个设置很重要，尤其是在部署到 public repository 时
 
@@ -38,7 +39,8 @@ jobs:
 
       # 设置pnpm缓存
       - name: Cache pnpm modules
-        uses: actions/cache@v2
+        # uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             ~/.pnpm-store
