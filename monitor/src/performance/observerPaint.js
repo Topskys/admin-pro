@@ -1,6 +1,11 @@
 import { lazyReportBatch } from '../report';
 
 export default function observerPaint() {
+  /**
+   * 处理入口事件
+   *
+   * @param list PerformanceObserverEntryList 对象，包含所有性能条目
+   */
   const entryHandler = (list) => {
     const entries = list.getEntries();
     for (const entry of entries) {

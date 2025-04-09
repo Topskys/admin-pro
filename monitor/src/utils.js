@@ -1,7 +1,14 @@
 /**
- * 深度克隆
- * @param {object} target
- * @returns any
+ * 深拷贝函数
+ *
+ * @param {any} target - 要进行深拷贝的对象或数组
+ * @returns {Object|Array} - 返回深拷贝后的对象或数组
+ *
+ * @description
+ * 该函数用于对对象或数组进行深拷贝，即复制出与原对象或数组完全独立的副本。
+ * 如果目标不是对象或数组，则直接返回该目标。
+ * 如果是对象，则遍历对象的所有属性，递归调用自身进行深拷贝。
+ * 如果是数组，则创建一个新的空数组，并遍历原数组的元素，递归调用自身进行深拷贝。
  */
 export function deepCopy(target) {
   if (typeof target !== 'object') return target;
@@ -17,8 +24,9 @@ export function deepCopy(target) {
 }
 
 /**
- * 生成唯一id
- * @returns string
+ * 生成唯一ID
+ *
+ * @returns 返回生成的唯一ID字符串
  */
 export function generateUniqueId() {
   return 'id-' + Date.now() + '-' + Math.random().toString(36).substring(2, 9);

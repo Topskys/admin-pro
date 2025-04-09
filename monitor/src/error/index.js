@@ -1,5 +1,6 @@
 import { lazyReportBatch } from '../report';
 
+// 捕获错误上报
 export default function error() {
   // 捕获资源加载失败的错误 js 、css、图片等
   window.addEventListener(

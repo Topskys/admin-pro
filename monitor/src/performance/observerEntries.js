@@ -5,6 +5,9 @@ export default function observerEntries() {
     // 页面加载完成时执行
     observerEvent();
   } else {
+    /**
+     * 当页面加载完成后执行的函数
+     */
     const onLoad = () => {
       observerEvent();
       window.removeEventListener('load', onLoad, true);
@@ -13,7 +16,15 @@ export default function observerEntries() {
   }
 }
 
+/**
+ * 观察性能事件，收集资源加载的性能数据，并进行上报
+ */
 export function observerEvent() {
+  /**
+   * 入口处理函数
+   *
+   * @param list 性能条目列表
+   */
   const entryHandler = (list) => {
     const entries = list.getEntries();
     for (const entry of entries) {
@@ -39,7 +50,7 @@ export function observerEvent() {
           request: entry.responseEnd - entry.requestStart, // 请求耗时
           response: entry.responseEnd - entry.responseStart // 响应耗时
         };
-        // TODO: 上报数据
+        // 上报数据
         lazyReportBatch(reportData);
       }
     }

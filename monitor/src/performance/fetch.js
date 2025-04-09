@@ -2,6 +2,11 @@ import { lazyReportBatch } from '../report';
 
 const originalFetch = window.fetch;
 
+/**
+ * 重写 fetch 方法以收集性能数据
+ *
+ * @returns 无返回值
+ */
 function overwriteFetch() {
   window.fetch = function (url, config) {
     const startTime = Date.now();
@@ -24,7 +29,7 @@ function overwriteFetch() {
         const data = res.clone();
         reportData.status = data.status;
         reportData.success = data.ok;
-        // TODO: 上报
+        // 上报
         lazyReportBatch(reportData);
         return res;
       })
@@ -34,7 +39,7 @@ function overwriteFetch() {
         reportData.duration = endTime - startTime;
         reportData.success = false;
         reportData.status = 0;
-        // TODO: 上报
+        // 上报
         lazyReportBatch(reportData);
       });
   };

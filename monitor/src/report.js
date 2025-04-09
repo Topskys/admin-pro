@@ -29,8 +29,9 @@ export function report(data) {
 }
 
 /**
- * 批量上報數據
- * @param {any} data 上報的數據
+ * 延迟批量上报数据
+ *
+ * @param {any} data - 待上报的数据数组
  */
 export function lazyReportBatch(data) {
   addCache(data);
@@ -43,9 +44,9 @@ export function lazyReportBatch(data) {
 }
 
 /**
- * 使用圖片請求發送數據
- * @param {string} url 上報地址
- * @param {any} data 上報的數據
+ * 使用图片形式上报数据，避免跨域限制问题。
+ *
+ * @param {any} data - 要上报的数据对象
  */
 export function imgRequest(data) {
   const img = new Image();
@@ -54,8 +55,9 @@ export function imgRequest(data) {
 }
 
 /**
- * 普通ajax發送請求數據
- * @param {any} data
+ * 使用XHR上报数据
+ *
+ * @param {any} data - 待上报的数据对象
  */
 export function xhrRequest(data) {
   if (window.requestIdleCallback) {
@@ -79,8 +81,9 @@ export function xhrRequest(data) {
 }
 
 /**
- * 判斷瀏覽器是否支持sendBeacon
- * @returns boolean
+ * 判断浏览器是否支持 sendBeacon 方法
+ *
+ * @returns {boolean} 如果浏览器支持 sendBeacon 方法则返回 true，否则返回 false
  */
 export function isSupportSendBeacon() {
   return 'sendBeacon' in navigator;
@@ -89,11 +92,11 @@ export function isSupportSendBeacon() {
 // const sendBeacon = isSupportSendBeacon() ? navigator.sendBeacon : xhrRequest;
 
 /**
- * 使用sendBeacon發送上報數據
- * @param {any} data 上報數據
+ * 使用navigator.sendBeacon方法发送Beacon请求上报
+ *
+ * @param {any} data - 待上报的数据对象
  */
 export function sendBeaconRequest(data) {
-  let flag = true;
   // 如果瀏覽器空閒時間大於3s會發送上報數據
   if (window.requestIdleCallback) {
     window.requestIdleCallback(

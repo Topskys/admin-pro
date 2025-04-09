@@ -1,7 +1,7 @@
 import { lazyReportBatch } from '../report';
 
 /**
- * 監聽點擊觸摸事件
+ * 监听点击事件，上报数据
  */
 export default function click() {
   ['mousedown', 'touchstart'].forEach((eventType) => {

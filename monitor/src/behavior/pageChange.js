@@ -3,7 +3,7 @@ import { generateUniqueId } from '../utils';
 
 /**
  * 監聽路由跳轉
- * 監聽hashchange 和 popstate 事件
+ * 監聽 hashchange 和 popstate 事件
  */
 export default function pageChange() {
   // 监听hash路由
@@ -20,6 +20,7 @@ export default function pageChange() {
         uuid: generateUniqueId(),
         startTime: this.performance.now() || e.timeStamp
       };
+      // TODO: 在此可統計pv
       lazyReportBatch(reportData);
       oldUrl = newUrl;
     },
@@ -40,6 +41,7 @@ export default function pageChange() {
         uuid: generateUniqueId(),
         startTime: this.performance.now() || e.timeStamp
       };
+      // TODO: 在此可統計pv
       lazyReportBatch(reportData);
       from = to;
     },

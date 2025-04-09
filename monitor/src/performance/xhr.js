@@ -8,6 +8,11 @@ export default function xhr() {
   overwriteOpenAndSend();
 }
 
+/**
+ * 重写 open 和 send 方法，用于记录 XMLHttpRequest 的性能数据
+ *
+ * @returns 无返回值
+ */
 function overwriteOpenAndSend() {
   originalProto.open = function newOpen(...args) {
     this.method = args[0];

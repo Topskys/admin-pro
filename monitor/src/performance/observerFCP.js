@@ -1,6 +1,11 @@
 import { lazyReportBatch } from '../report';
 
 export default function observerLCP() {
+  /**
+   * 处理性能监控入口函数
+   *
+   * @param list - 性能监控列表
+   */
   const entryHandler = (list) => {
     const entries = list.getEntries();
     for (const entry of entries) {

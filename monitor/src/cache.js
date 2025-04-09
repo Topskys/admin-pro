@@ -6,23 +6,27 @@ import { deepCopy } from './utils';
 const cache = [];
 
 /**
- * 獲取緩存數據
- * @returns 深拷貝的數據
+ * 获取缓存数据
+ *
+ * @returns {Object} 缓存数据对象
  */
 export function getCache() {
   return deepCopy(cache);
 }
 
 /**
- * 添加緩存數據
- * @param {any} data
+ * 添加数据到缓存中
+ *
+ * @param {any} data - 要添加的数据
  */
 export function addCache(data) {
   cache.push(data);
 }
 
 /**
- * 清空緩存數據
+ * 清空缓存
+ *
+ * 将缓存数组的长度设置为0，从而清空缓存中的所有数据。
  */
 export function clearCache() {
   cache.length = 0;
