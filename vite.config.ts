@@ -44,10 +44,10 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     // css预处理
     css: {
       preprocessorOptions: {
-        // less: {
-        //   // 优化：将变量文件导入每个组件中
-        //   additionalData: `@import "@/styles/variable.less";`
-        // },
+        less: {
+          // 优化：将变量文件导入每个组件中
+          additionalData: `@import "@/styles/variable.less";`
+        },
         scss: {
           additionalData: `@use "@/styles/element/index.scss" as *;`, // 切换主题1
           // charset: false // 解决中文乱码问题
