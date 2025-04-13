@@ -150,6 +150,24 @@ export default {
         isShow: true,
         title: '水印测试'
       }
+    },
+    {
+      path: '/video',
+      name: 'VideoPage',
+      component: () => import('@/views/video/index.vue'),
+      meta: {
+        isShow: true,
+        title: '视频播放'
+      }
+    },
+    {
+      path: '/theme',
+      name: 'Theme',
+      component: () => import('@/views/theme/index.vue'),
+      meta: {
+        isShow: true,
+        title: '切换主题'
+      }
     }
   ]
 };

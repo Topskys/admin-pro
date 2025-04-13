@@ -2,11 +2,12 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import './styles/index.less';
+// import './styles/index.css';
 // import { registerECharts } from './plugins/echarts';
 // import monitor from '../monitor/dist/monitor.esm.js'; // 性能监控
 import ErrorStackParser from 'error-stack-parser';
 // import { findCodeBySourcemap } from './utils';
+// import './styles/theme/index.scss';
 
 const app = createApp(App);
 app.use(router);

@@ -1,0 +1,29 @@
+/* just override what you need */
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'white': #ffffff,
+    'black': #000000,
+    'primary': (
+      'base': green,
+    ),
+    'success': (
+      'base': #21ba45,
+    ),
+    'warning': (
+      'base': #f2711c,
+    ),
+    'danger': (
+      'base': #db2828,
+    ),
+    'error': (
+      'base': #db2828,
+    ),
+    'info': (
+      'base': #646f72,
+    ),
+  )
+);
+
+// If you just import on demand, you can ignore the following content.
+// 如果你想导入所有样式:
+// @use "element-plus/theme-chalk/src/index.scss" as *;

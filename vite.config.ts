@@ -1,3 +1,4 @@
+import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import type { UserConfig, ConfigEnv } from 'vite';
 import { fileURLToPath } from 'url';
@@ -32,7 +33,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   const root = process.cwd();
   // 获取环境变量
   const env = loadEnv(mode, root);
-  console.log(env);
+  // console.log(env);
   return {
     // 项目根目录
     root,
@@ -43,9 +44,13 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     // css预处理
     css: {
       preprocessorOptions: {
-        less: {
-          // 优化：将变量文件导入每个组件中
-          additionalData: `@import "@/styles/variable.less";`
+        // less: {
+        //   // 优化：将变量文件导入每个组件中
+        //   additionalData: `@import "@/styles/variable.less";`
+        // },
+        scss: {
+          additionalData: `@use "@/styles/element/index.scss" as *;`, // 切换主题1
+          // charset: false // 解决中文乱码问题
         }
       }
     },
@@ -60,7 +65,10 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         mockPath: 'mock', // 数据模拟需要拦截的请求起始 URL
         enable: true // 本地环境是否开启 mock 功能
       }),
-      ElementPlus({}),
+      ElementPlus({
+        useSource: true,  // 新增配置（切换主题2）
+        defaultLocale: 'zh-cn'  // 新增配置
+      }),
       // 自动按需引入插件
       AutoImport({
         // 自动导入vue相关函数
@@ -70,12 +78,16 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           enabled: true
         },
         // 自动导入element-plus相关函数
-        resolvers: [ElementPlusResolver(), IconsResolver()],
+        resolvers: [ElementPlusResolver({
+          // importStyle: 'sass'  // 添加样式处理配置
+        }), IconsResolver()],
         dts: fileURLToPath(new URL('./types/auto-imports.d.ts', import.meta.url))
       }),
       // 自动注册组件
       Components({
-        resolvers: [ElementPlusResolver(), IconsResolver()],
+        resolvers: [ElementPlusResolver({
+          // importStyle: 'sass'  // 添加样式处理配置
+        }), IconsResolver()],
         dts: fileURLToPath(new URL('./types/components.d.ts', import.meta.url)),
         dirs: fileURLToPath(new URL('./src/components/auto', import.meta.url)),
         // 只针对vue做处理（/* webpackChunkName: about */将某个组件打成单个文件时）
@@ -217,6 +229,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     // 配置别名
     resolve: {
       alias: {
+        '~/': `${path.resolve(__dirname, 'src')}/`,
         '@': fileURLToPath(new URL('./src', import.meta.url)),
         '#': fileURLToPath(new URL('./types', import.meta.url))
       }
