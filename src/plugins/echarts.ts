@@ -1,7 +1,7 @@
 // 引入 echarts 核心模块，核心模块提供了 echarts 使用必须要的接口。
 import * as echarts from 'echarts/core';
 // 引入柱状图图表，图表后缀都为 Chart
-import { BarChart, PieChart } from 'echarts/charts';
+import { BarChart,LineChart, PieChart } from 'echarts/charts';
 // 引入标题，提示框，直角坐标系，数据集，内置数据转换器组件，组件后缀都为 Component
 import {
   TitleComponent,
@@ -17,6 +17,15 @@ import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 // 引入vue-echarts
 import VECharts from 'vue-echarts';
+import {
+  BarSeriesOption,
+  ComposeOption,
+  LineSeriesOption,
+  TitleComponentOption,
+  TooltipComponentOption,
+  GridComponentOption,
+  DatasetComponentOption
+} from 'echarts';
 
 // 注册必须的组件
 echarts.use([
@@ -27,11 +36,21 @@ echarts.use([
   TransformComponent,
   BarChart,
   PieChart,
+  LineChart,
   LegendComponent,
   LabelLayout,
   UniversalTransition,
   CanvasRenderer
 ]);
+
+export type ECOption = ComposeOption<
+  | BarSeriesOption
+  | LineSeriesOption
+  | TitleComponentOption
+  | TooltipComponentOption
+  | GridComponentOption
+  | DatasetComponentOption
+>;
 
 // 接下来的使用就跟之前一样，初始化图表，设置配置项
 export default echarts;

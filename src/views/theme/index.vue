@@ -36,7 +36,7 @@
     <el-button type="danger" :icon="Delete" circle />
   </div>
   <h2>Table表格</h2>
-  <el-table :data="tableData" style="width: 100%" class="mb-4">
+  <el-table :data="tableData" style="width: 100%" class="mb-4" border>
     <el-table-column prop="date" label="Date" width="180" />
     <el-table-column prop="name" label="Name" width="180" />
     <el-table-column prop="address" label="Address" />

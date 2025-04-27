@@ -168,6 +168,6 @@ export default {
         isShow: true,
         title: '切换主题'
       }
-    }
+    } 
   ]
 };

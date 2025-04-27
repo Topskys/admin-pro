@@ -55,6 +55,7 @@ export const useUserStoreHook = defineStore('userInfo', {
     // paths: ["accessToken"],
   }
 });
+console.log("🚀 ~ useUserStoreHook:", useUserStoreHook)
 
 export function useUserStore() {
   return useUserStoreHook(pinia);

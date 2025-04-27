@@ -9,7 +9,17 @@ const modules: Record<string, any> = import.meta.glob('./modules/*.ts', {
 });
 
 // 配置路由
-const routes: Array<RouteRecordRaw> = [];
+const routes: Array<RouteRecordRaw> = [
+  {
+    path: '/data-view',
+    name: 'DataViewPage',
+    component: () => import('@/views/data-view/index.vue'),
+    meta: {
+      isShow: true,
+      title: '数据大屏'
+    }
+  }
+];
 Object.keys(modules).forEach((key) => routes.push(modules[key].default));
 
 const router = createRouter({
