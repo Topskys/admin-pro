@@ -5,7 +5,7 @@ import { ECOption } from '@/plugins/echarts';
 import * as _ from 'lodash-es';
 
 const props = defineProps<{
-  option: ECOption;
+  option: Partial<ECOption>;
   theme?: string;
 }>();
 
