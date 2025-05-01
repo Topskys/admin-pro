@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>大屏缩放适配</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      /* 禁止页面滚动 */
+      overflow: hidden;
+    }
+
+    #chart-container {
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .bar {
+      overflow: hidden;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="chart-container">
+    <img src="../../../public/20250331221126.png" alt="大屏缩放适配" class="bar" />
+  </div>
+
+  <script type="module">
+    /**
+     * 防抖函数，用于控制 resize 事件的调用频率  
+     * 一段时间内只执行一次
+     * @param fn 回调函数
+     * @param delay 延迟
+     * @returns {(function(): void)|*}
+     */
+    export function debounce(fn, delay) {
+      let timer
+      return function () {
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+          fn.apply(this, arguments)
+        }, delay)
+      }
+    }
+
+    /**
+     * 大屏自动缩放自适应，自动缩放并居中元素的函数
+     * @param selector 选择器
+     * @param options 配置
+     */  
+    export function autoScale(selector, options) {
+      const { designWidth = 1920, designHeight = 1080 } = options;
+      const el = document.querySelector(selector);
+
+      el.style.transformOrigin = 'top left';
+      el.style.transition = 'transform 0.5s';
+
+      function init() {
+        // 计算缩放比例  
+        const scaleX = innerWidth / designWidth;
+        const scaleY = innerHeight / designHeight;
+        const scale = Math.min(scaleX, scaleY);
+
+        // 计算居中位移  
+        const left = (innerWidth - designWidth * scale) / 2;
+        const top = (innerHeight - designHeight * scale) / 2;
+
+        // 应用 CSS 转换  
+        el.style.transform = `translate(${left}px, ${top}px) scale(${scale})`;
+      }
+
+      init(); // 初始化时调用  
+      window.addEventListener('resize', debounce(init, 200)); // 监听调整大小  
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      autoScale('#chart-container', { designWidth: 926, designHeight: 750 });
+    });  
+  </script>
+</body>
+
+</html>

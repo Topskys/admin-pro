@@ -1,6 +1,7 @@
-<!-- <script setup lang="ts">
+<script setup lang="ts">
 import BaseChart from '@/components/chart/base-chart.vue';
 import { useAutoScale } from '@/hooks/useAutoScale';
+import VScaleScreen from 'v-scale-screen';
 
 const lineOption = reactive({
   xAxis: {
@@ -45,40 +46,44 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="data-view flex-col">
-    <el-row :gutter="10" class="row">
-      <el-col :span="6">
-        <BaseChart :option="lineOption" />
-      </el-col>
-      <el-col :span="12">
-        <BaseChart :option="barOption" />
-      </el-col>
-      <el-col :span="6">
-        <BaseChart :option="lineOption" />
-      </el-col>
-    </el-row>
-    <el-row :gutter="10" class="row">
-      <el-col :span="6">
-        <BaseChart :option="barOption" />
-      </el-col>
-      <el-col :span="12">
-        <BaseChart :option="lineOption" />
-      </el-col>
-      <el-col :span="6">
-        <BaseChart :option="barOption" />
-      </el-col>
-    </el-row>
-    <footer><BaseChart :option="lineOption" /></footer>
-  </div>
+  <VScaleScreen>
+    <div class="data-view flex-col">
+      <el-row :gutter="10" class="row">
+        <el-col :span="6">
+          <BaseChart :option="lineOption" />
+        </el-col>
+        <el-col :span="12">
+          <BaseChart :option="barOption" />
+        </el-col>
+        <el-col :span="6">
+          <BaseChart :option="lineOption" />
+        </el-col>
+      </el-row>
+      <el-row :gutter="10" class="row">
+        <el-col :span="6">
+          <BaseChart :option="barOption" />
+        </el-col>
+        <el-col :span="12">
+          <BaseChart :option="lineOption" />
+        </el-col>
+        <el-col :span="6">
+          <BaseChart :option="barOption" />
+        </el-col>
+      </el-row>
+      <footer><BaseChart :option="lineOption" /></footer>
+    </div>
+  </VScaleScreen>
 </template>
 
 <style lang="scss" scoped>
 .flex-col {
   display: flex;
   flex-direction: column;
-  width: 100vw;
-  height: 100vh;
-  overflow-y: auto;
+  width: 1920px;
+  height: 1080px;
+  height: 100%;
+  overflow: hidden;
+  background-color: #f0f0f0;
 
   .row {
     flex: 1;
@@ -91,12 +96,15 @@ onMounted(() => {
     // background-color: #f0f0f0;
   }
 }
-</style> -->
+</style>
 
-<template>
-  <div class="chart-container">
-    <img src="/20250331221126.png" alt="" style="width: 100%;height: 100%;object-fit: contain;">
+<!-- <template>
+    <VScaleScreen>  
+        <div class="chart-container">
+    <img src="/20250331221126.png" alt="" style="width: 100%;height: 100%">
   </div>
+</VScaleScreen>
+
 </template>
 
 <script setup lang="ts">
@@ -104,6 +112,7 @@ import echarts from '@/plugins/echarts';
 import { ref, onMounted } from 'vue';
 import BaseChart from '@/components/chart/base-chart.vue';
 import { useAutoScale } from '@/hooks/useAutoScale';
+import VScaleScreen from 'v-scale-screen';
 
 const option = ref({
   title: {
@@ -154,7 +163,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   //   设置比例
-
+background-color: antiquewhite;
 
 }
 
@@ -162,4 +171,4 @@ onMounted(() => {
   height: 100vh;
   // overflow: hidden;
 }
-</style>
+</style> -->

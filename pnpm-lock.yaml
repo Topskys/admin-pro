@@ -44,6 +44,9 @@ importers:
       source-map-js:
         specifier: ^1.2.1
         version: 1.2.1
+      v-scale-screen:
+        specifier: ^2.3.0
+        version: 2.3.0(vue@3.5.13(typescript@5.8.2))
       vue:
         specifier: ^3.5.12
         version: 3.5.13(typescript@5.8.2)
@@ -4099,6 +4102,11 @@ packages:
   utils-merge@1.0.1:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
+
+  v-scale-screen@2.3.0:
+    resolution: {integrity: sha512-SoYxvdZ9qi4Ne8BDDflIRU0IfX/qgmtZ0pPaZ4rGB+/Wr0GBYQbjRnoHF+uq1JqqUsBtiyjUnAkrG6xYTMXFpA==}
+    peerDependencies:
+      vue: ^3.2.37
 
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
@@ -8383,6 +8391,10 @@ snapshots:
   util-deprecate@1.0.2: {}
 
   utils-merge@1.0.1: {}
+
+  v-scale-screen@2.3.0(vue@3.5.13(typescript@5.8.2)):
+    dependencies:
+      vue: 3.5.13(typescript@5.8.2)
 
   validate-npm-package-license@3.0.4:
     dependencies:
