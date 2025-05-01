@@ -3,6 +3,7 @@ import VScaleScreen from 'v-scale-screen';
 import BaseChart from '@/components/chart/base-chart.vue';
 import { useAutoScale } from '@/hooks/useAutoScale';
 import { useCountdown } from '@/hooks/useCountdown';
+import { createUseComputed } from '@/hooks/useComputed';
 
 const lineOption = reactive({
   xAxis: {
@@ -46,13 +47,14 @@ onMounted(() => {
 });
 
 const { remaining, used } = useCountdown('23:59:59');
+const sum = createUseComputed((a, b) => a + b)(1, 2);
 </script>
 
 <template>
   <VScaleScreen>
 
     <div class="data-view flex-col">
-      倒计时：{{ remaining }} 已使用时间 ： {{ used }}
+      倒计时：{{ remaining }} 已使用时间 ： {{ used }}, 总和：{{ sum }}
       <el-row :gutter="10" class="row">
         <el-col :span="6">
 
