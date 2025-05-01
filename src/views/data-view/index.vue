@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import VScaleScreen from 'v-scale-screen';
 import BaseChart from '@/components/chart/base-chart.vue';
 import { useAutoScale } from '@/hooks/useAutoScale';
-import VScaleScreen from 'v-scale-screen';
+import { useCountdown } from '@/hooks/useCountdown';
 
 const lineOption = reactive({
   xAxis: {
@@ -43,13 +44,18 @@ onMounted(() => {
     console.log('🚀 ~ setInterval ~ barOption:', barOption, lineOption);
   }, 10000);
 });
+
+const { remaining, used } = useCountdown('23:59:59');
 </script>
 
 <template>
   <VScaleScreen>
+
     <div class="data-view flex-col">
+      倒计时：{{ remaining }} 已使用时间 ： {{ used }}
       <el-row :gutter="10" class="row">
         <el-col :span="6">
+
           <BaseChart :option="lineOption" />
         </el-col>
         <el-col :span="12">
@@ -70,7 +76,9 @@ onMounted(() => {
           <BaseChart :option="barOption" />
         </el-col>
       </el-row>
-      <footer><BaseChart :option="lineOption" /></footer>
+      <footer>
+        <BaseChart :option="lineOption" />
+      </footer>
     </div>
   </VScaleScreen>
 </template>
