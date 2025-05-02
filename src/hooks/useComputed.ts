@@ -10,7 +10,7 @@ import { computed } from 'vue';
  * const computedValue = useComputed(1, 2); // 使用计算属性并传入参数
  * console.log(computedValue.value); // 输出：3
  * @example
- * const c = computed(()=>(a,b)=>a+b); // 错误示范，计算属性不能直接传入参数，这样会失去缓存效果。
+ * const c = computed(()=>(a,b)=>a+b); // 错误示范，计算属性不能直接传入参数，这样会失去缓存效果，直接类似const add=(a,b)=>a+b。
  * const computedValue = c(1, 2); // 这样每次都会重新计算，失去缓存效果。
  * @example
  * const useComputed = createUseComputed((a, b) => a + b); // 正确示范，使用createUseComputed创建计算属性工厂函数。
