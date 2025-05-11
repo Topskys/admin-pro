@@ -4,6 +4,7 @@ import BaseChart from '@/components/chart/base-chart.vue';
 import { useAutoScale } from '@/hooks/useAutoScale';
 import { useCountdown } from '@/hooks/useCountdown';
 import { createUseComputed } from '@/hooks/useComputed';
+import { useBoardStore } from '@/store/board';
 
 const lineOption = reactive({
   xAxis: {
@@ -46,18 +47,38 @@ onMounted(() => {
   }, 10000);
 });
 
-const { remaining, used } = useCountdown('23:59:59');
+const boardStore = useBoardStore();
+const { result } = storeToRefs(boardStore);
+
+// const { remaining, used } = useCountdown('23:59:59');
 const sum = createUseComputed((a, b) => a + b)(1, 2);
+
+const countDown = ref<any>(null);
+const remaining2 = ref(null);
+const used2 = ref(null);
+countDown.value = useCountdown('23:59:59');
+watch(
+  () => result.value,
+  () => {
+    console.log('🚀 ~ watch ~ result:', result.value);
+    
+    countDown.value.start();
+    const { remaining, used } = countDown.value;
+    remaining2.value = remaining;
+    used2.value = used;
+  },
+  {
+    deep: true
+  }
+);
 </script>
 
 <template>
   <VScaleScreen>
-
     <div class="data-view flex-col">
-      倒计时：{{ remaining }} 已使用时间 ： {{ used }}, 总和：{{ sum }}
+      倒计时：{{ remaining2 }} 已使用时间 ： {{ used2 }}, 总和：{{ sum }}- {{ result }}
       <el-row :gutter="10" class="row">
         <el-col :span="6">
-
           <BaseChart :option="lineOption" />
         </el-col>
         <el-col :span="12">

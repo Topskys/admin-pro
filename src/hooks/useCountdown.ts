@@ -93,5 +93,5 @@ export function useCountdown(initialTime: string, onEnd?: () => void): Countdown
   // 组件卸载时清除定时器
   onUnmounted(clearTimer);
 
-  return { remaining, used, pause, resume, reset };
+  return { remaining, used, start, pause, resume, reset };
 }
