@@ -11,18 +11,17 @@ export const useBoardStore = defineStore(
       result.value.count++;
     };
 
-    onMounted(() => {
-      setInterval(() => {
-        add();
-      }, 10000);
-    });
+   const  getCount=() =>{
+      return result.value.count;
+    }
 
     return {
       result,
-      add
+      add,
+      getCount
     };
   },
   {
-    persist: false
+    persist: true
   }
 );

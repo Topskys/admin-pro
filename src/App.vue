@@ -29,12 +29,25 @@
 // );
 // import './features';
 // import ParentComponent from './features/parentComponent';
+import { useBoardStore } from './store/board';
 
 const jsErr = () => {
   const num = new Number(223.12);
   throw new Error('js error');
   // console.log(num.toFixed(01));
 };
+const add = () => {
+  const boardStore = useBoardStore();
+  boardStore.add();
+};
+
+onMounted(() => {
+  setInterval(() => {
+    add();
+  }, 1000);
+});
+
+
 </script>
 <style lang="less">
 #app {

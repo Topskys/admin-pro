@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory, RouteLocationNormalizedGeneric, Rou
 import 'nprogress/nprogress.css';
 import NProgress from 'nprogress';
 import { useSettingStore } from '@/store/setting';
+import { useBoardStore } from '@/store/board';
 
 // 整体导入路由文件（默认是懒加载）
 const modules: Record<string, any> = import.meta.glob('./modules/*.ts', {
@@ -53,29 +54,31 @@ const handleRouters = (to: RouteLocationNormalizedGeneric) => {
   const titles = getTitle(currentName as string, router.getRoutes());
   settingStore.setTitle(titles);
 };
-
+  
 /**
  * 路由守卫
  */
 router.beforeEach((to, from, next) => {
   // 进度条开始
   NProgress.start();
-  // const token = sessionStorage.getItem('userInfo');
-  // if (token) {
-  //   if (to.path === '/login') {
-  //     next({ path: '/' });
-  //   } else {
-  //     next();
-  //   }
-  // } else {
-  //   if (whiteList.indexOf(to.path) > -1) {
-  //     next();
-  //   } else {
-  //     next('/login');
-  //   }
-  // }
-  // handleRouters(to);
-  next();
+
+
+  // TEST: 测试从store获取数据来修改website title
+const boardStore = useBoardStore();
+  // const { result } = storeToRefs(boardStore);
+  // console.log('🚀 ~ router.beforeEach ~ result.value1:', boardStore.getCount());
+  // ok 1
+  // const result = JSON.parse(localStorage.getItem('board') as string);
+  // console.log("🚀 ~ file: index.ts:71 ~ result :", result )
+  // document.title = `数据大屏-${result.result.count}`;
+  // ok 2
+  document.title = `数据大屏-${boardStore.getCount()}`;
+  next(()=>{
+    // const { result } = storeToRefs(boardStore);
+    console.log('🚀 ~ router.beforeEach ~ result.value2:', boardStore.result, boardStore.getCount());
+    // document.title = `数据大屏-${boardStore.result?.count}`;
+    // document.title = `数据大屏-${result?.count}`;
+  });
 });
 
 router.afterEach(() => {
