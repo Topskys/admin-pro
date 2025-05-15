@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <svg
     class="svg-icon"
     :class="$attrs.class"
@@ -28,7 +28,7 @@ export default {
     },
     color: {
       type: String,
-      default: 'transparent'
+      // default: 'transparent'
     },
     width: {
       type: [Number, String]
@@ -51,10 +51,10 @@ export default {
   width: 1em;
   height: 1em;
   vertical-align: -0.15em;
-  /* fill: currentColor; */
+  fill: currentColor;
   overflow: hidden;
 }
-</style>
+</style> -->
 
 <!-- 02 -->
 <!-- <template>
@@ -145,3 +145,69 @@ export default {
   overflow: hidden;
 }
 </style> -->
+
+<!-- 04 -->
+<template>
+  <svg
+    class="svg-icon"
+    :style="{
+      width: validSize,
+      height: validSize,
+      fill: customFill,
+      stroke: customStroke
+    }"
+    aria-hidden="true"
+  >
+    <use :xlink:href="`#${iconId}`" />
+  </svg>
+</template>
+
+<script lang="ts">
+import { defineComponent, computed } from 'vue'
+
+export default defineComponent({
+  name: 'SvgIcon',
+  props: {
+    name: {
+      type: String,
+      required: true
+    },
+    size: {
+      type: [Number, String],
+      default: null
+    },
+    fill: {
+      type: String,
+      default: 'currentColor'
+    },
+    stroke: {
+      type: String,
+      default: 'currentColor'
+    }
+  },
+  setup(props) {
+    const iconId = computed(() => `${'icon'}-${props.name}`)
+
+    const validSize = computed(() => 
+      typeof props.size === 'number' ? `${props.size}px` : props.size
+    )
+
+    return {
+      iconId,
+      validSize,
+      customFill: props.fill,
+      customStroke: props.stroke
+    }
+  }
+})
+</script>
+
+<style scoped>
+.svg-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+</style>

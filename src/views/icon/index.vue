@@ -3,7 +3,7 @@
     <Tag text="CustomTag" theme="blue"></Tag>
     <svg-icon name="refresh" color="red"></svg-icon>
     <Tag text="测试自定义组件" theme="blue"></Tag>
-    <svg-icon name="config" width="40px" height="40px"></svg-icon>
+    <svg-icon name="config" width="40px" height="40px" stroke="red"></svg-icon>
   </div>
 </template>
 <script setup lang="ts">

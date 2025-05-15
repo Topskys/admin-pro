@@ -20,7 +20,8 @@ import { createHtmlPlugin } from 'vite-plugin-html'; // 自动导入cdn
 import { manualChunksPlugin } from 'vite-plugin-webpackchunkname';
 
 // TEST: test vite-svg-script plugin
-import svgSpritePlugin from './src/plugins/vite-svg-loader';
+import svgSpritePlugin from './src/plugins/vite-svg-script/src/plugins/vite-svg-loader';
+// import svgSpritePlugin from './src/plugins/vite-svg-loader-ts';
 
 // 不加入打包使用外链
 const globals = externalGlobals({
@@ -145,6 +146,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       svgSpritePlugin({
         iconsDir: 'src/icons', // 自定义图标目录
         prefix: 'icon' // 自定义前缀
+
       })
     ],
     // 运行后本地预览的服务器
