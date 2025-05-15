@@ -168,6 +168,33 @@ export default {
         isShow: true,
         title: '切换主题'
       }
-    } 
+    },
+    {
+      path: '/use-axios',
+      name: 'UseAxiosPage',
+      component: () => import('@/views/use-axios/index.vue'),
+      meta: {
+        isShow: true,
+        title: '請求鉤子'
+      }
+    },
+    {
+      path: '/image',
+      name: 'ImagePage',
+      component: () => import('@/views/image/index.vue'),
+      meta: {
+        isShow: true,
+        title: '图片处理'
+      }
+    },
+    {
+      path: '/icon',
+      name: 'IconPage',
+      component: () => import('@/views/icon/index.vue'),
+      meta: {
+        isShow: true,
+        title: 'SVG图标'
+      }
+    }
   ]
 };

@@ -19,6 +19,9 @@ import brotli from 'rollup-plugin-brotli';
 import { createHtmlPlugin } from 'vite-plugin-html'; // 自动导入cdn
 import { manualChunksPlugin } from 'vite-plugin-webpackchunkname';
 
+// TEST: test vite-svg-script plugin
+import svgSpritePlugin from './src/plugins/vite-svg-loader';
+
 // 不加入打包使用外链
 const globals = externalGlobals({
   mement: 'moment',
@@ -49,7 +52,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           additionalData: `@import "@/styles/variable.less";`
         },
         scss: {
-          additionalData: `@use "@/styles/element/index.scss" as *;`, // 切换主题1
+          additionalData: `@use "@/styles/element/index.scss" as *;` // 切换主题1
           // charset: false // 解决中文乱码问题
         }
       }
@@ -66,8 +69,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         enable: true // 本地环境是否开启 mock 功能
       }),
       ElementPlus({
-        useSource: true,  // 新增配置（切换主题2）
-        defaultLocale: 'zh-cn'  // 新增配置
+        useSource: true, // 新增配置（切换主题2）
+        defaultLocale: 'zh-cn' // 新增配置
       }),
       // 自动按需引入插件
       AutoImport({
@@ -78,16 +81,22 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           enabled: true
         },
         // 自动导入element-plus相关函数
-        resolvers: [ElementPlusResolver({
-          // importStyle: 'sass'  // 添加样式处理配置
-        }), IconsResolver()],
+        resolvers: [
+          ElementPlusResolver({
+            // importStyle: 'sass'  // 添加样式处理配置
+          }),
+          IconsResolver()
+        ],
         dts: fileURLToPath(new URL('./types/auto-imports.d.ts', import.meta.url))
       }),
       // 自动注册组件
       Components({
-        resolvers: [ElementPlusResolver({
-          // importStyle: 'sass'  // 添加样式处理配置
-        }), IconsResolver()],
+        resolvers: [
+          ElementPlusResolver({
+            // importStyle: 'sass'  // 添加样式处理配置
+          }),
+          IconsResolver()
+        ],
         dts: fileURLToPath(new URL('./types/components.d.ts', import.meta.url)),
         dirs: fileURLToPath(new URL('./src/components/auto', import.meta.url)),
         // 只针对vue做处理（/* webpackChunkName: about */将某个组件打成单个文件时）
@@ -132,7 +141,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         }
       }),
       globals, // 不加入打包使用外链（cdn）
-      manualChunksPlugin() // 静态资源分类打包
+      manualChunksPlugin(), // 静态资源分类打包
+      svgSpritePlugin({
+        iconsDir: 'src/icons', // 自定义图标目录
+        prefix: 'icon' // 自定义前缀
+      })
     ],
     // 运行后本地预览的服务器
     server: {

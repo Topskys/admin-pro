@@ -64,7 +64,7 @@ router.beforeEach((to, from, next) => {
 
 
   // TEST: 测试从store获取数据来修改website title
-const boardStore = useBoardStore();
+const boardStore = useBoardStore(); // 可以移出到函数外层
   // const { result } = storeToRefs(boardStore);
   // console.log('🚀 ~ router.beforeEach ~ result.value1:', boardStore.getCount());
   // ok 1

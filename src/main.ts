@@ -8,10 +8,12 @@ import './styles/index.css';
 import ErrorStackParser from 'error-stack-parser';
 // import { findCodeBySourcemap } from './utils';
 // import './styles/theme/index.scss';
+import svgIcon from './components/svg-icon.vue';
 
 const app = createApp(App);
 app.use(router);
 app.use(store);
+app.component('svg-icon', svgIcon);
 
 // app.use(monitor, {
 //   url: 'http://localhost:8000/reportData'
