@@ -151,10 +151,10 @@ export default {
   <svg
     class="svg-icon"
     :style="{
-      width: validSize,
-      height: validSize,
-      fill: customFill,
-      stroke: customStroke
+      // width: validSize,
+      // height: validSize,
+      // fill: customFill,
+      // stroke: customStroke
     }"
     aria-hidden="true"
   >
@@ -207,7 +207,7 @@ export default defineComponent({
   width: 1em;
   height: 1em;
   vertical-align: -0.15em;
-  fill: currentColor;
+  /* fill: currentColor; */
   overflow: hidden;
 }
 </style>

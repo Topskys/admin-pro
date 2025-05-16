@@ -7,11 +7,13 @@ const PLUGIN_NAME = 'vite-plugin-svg-sprite';
 const defaultOptions = {
   iconsDir: 'src/assets/icons',
   prefix: 'icon',
+  output: false,
   outputDir: 'public',
   outputFile: 'sprite.svg',
   enableLogs: true,
   removeInlineStyles: true,
-  debounceTime: 300 // 新增防抖时间
+  debounceTime: 300, // 新增防抖时间
+  defaultViewBox: '0 0 24 24' // 新增默认 viewBox
 };
 
 export default function svgSpritePlugin(userOptions = {}) {
@@ -39,13 +41,42 @@ export default function svgSpritePlugin(userOptions = {}) {
     return `${options.prefix}-${name}`;
   };
 
-  const parseSvgContent = (content) => {
-    const viewBoxMatch = content.match(/viewBox=["']([^"']+)["']/i);
-    const viewBox = viewBoxMatch?.[1] || '0 0 24 24';
+  const parseDimension = (value) => {
+    // 提取数值部分（支持负数、小数和科学计数法）
+    const num = parseFloat(value.replace(/[^\d.-eE]/g, ''));
+    return isNaN(num) ? null : num;
+  };
 
+  const parseSvgContent = (content) => {
+    // 匹配 viewBox（宽松匹配）
+    let viewBox = null;
+    const viewBoxMatch = content.match(/viewBox\s*=\s*["']\s*([-\d.eE\s]+)\s*["']/i);
+    if (viewBoxMatch) {
+      // 清理多余空格并标准化
+      viewBox = viewBoxMatch[1].trim().replace(/\s+/g, ' ').replace(/\s,/g, ',');
+    } else {
+      // 获取 width 和 height
+      const widthMatch = content.match(/width\s*=\s*["']\s*([^"']+?)\s*["']/i);
+      const heightMatch = content.match(/height\s*=\s*["']\s*([^"']+?)\s*["']/i);
+      const width = widthMatch ? parseDimension(widthMatch[1]) : null;
+      const height = heightMatch ? parseDimension(heightMatch[1]) : null;
+      // 生成 viewBox
+      if (width !== null && height !== null) {
+        viewBox = `0 0 ${width} ${height}`;
+      } else {
+        viewBox = options.defaultViewBox;
+      }
+    }
+
+    // 移除SVG标签和闭合标签（仅保留内容）
+    // 移除XML声明（HTML文档中不需要）
+    // 清理多余的空格
+    // 压缩内容
     let cleanedContent = content
       .replace(/<svg[^>]*>/i, '')
       .replace(/<\/svg>/i, '')
+      .replace(/<\?xml.*?\?>/, '')
+      .replace(/\s+/g, ' ')
       .trim();
 
     if (options.removeInlineStyles) {
@@ -75,7 +106,7 @@ export default function svgSpritePlugin(userOptions = {}) {
       const fullPath = join(iconsPath, file);
       if (extname(fullPath) !== '.svg' || !existsSync(fullPath)) return;
 
-      log(`Processing: ${relative(process.cwd(), fullPath)}`);
+      // log(`Processing: ${relative(process.cwd(), fullPath)}`);
 
       try {
         const content = readFileSync(fullPath, 'utf-8');
@@ -91,13 +122,7 @@ export default function svgSpritePlugin(userOptions = {}) {
       }
     });
 
-    const spriteContent = `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none">
-  ${symbols
-    .map(({ id, viewBox, content }) => `<symbol id="${id}" viewBox="${viewBox}">${content}</symbol>`)
-    .join('\n  ')}
-</svg>`;
-
+    const spriteContent = `${symbols.map(({ id, viewBox, content }) => `<symbol id="${id}" viewBox="${viewBox}">${content}</symbol>`).join('\n  ')}`;
     log(`Generated ${symbols.length} icons in ${Date.now() - startTime}ms`);
     return spriteContent;
   };
@@ -136,7 +161,6 @@ export default function svgSpritePlugin(userOptions = {}) {
               this.buildStart?.();
               server.ws.send({ type: 'full-reload' });
             });
-            
           }
         } catch (error) {
           console.error(`[${PLUGIN_NAME}] Path processing failed:`, error);
@@ -147,33 +171,38 @@ export default function svgSpritePlugin(userOptions = {}) {
     },
 
     buildStart() {
-      const outputPath = getOutputPath();
+      // const outputPath = getOutputPath();
       const sprite = generateSprite();
 
-      try {
-        mkdirSync(dirname(outputPath), { recursive: true });
-        writeFileSync(outputPath, sprite);
-        log(`Sprite saved to: ${relative(process.cwd(), outputPath)}`);
-      } catch (error) {
-        console.error(`[${PLUGIN_NAME}] Failed to write sprite:`, error);
-      }
+      // try {
+      //   mkdirSync(dirname(outputPath), { recursive: true });
+      //   writeFileSync(outputPath, sprite);
+      //   log(`Sprite saved to: ${relative(process.cwd(), outputPath)}`);
+      // } catch (error) {
+      //   console.error(`[${PLUGIN_NAME}] Failed to write sprite:`, error);
+      // }
     },
-
     transformIndexHtml() {
-      const spritePath = getOutputPath();
-      if (!existsSync(spritePath)) {
-        return;
-      }
+      // 生成雪碧图内容
+      const spriteContent = generateSprite();
 
+      // 有效性检查
+      if (!spriteContent || !spriteContent.includes('<symbol')) {
+        console.warn(`[${PLUGIN_NAME}] Generated empty sprite content`);
+        return [];
+      }
       return [
         {
-          tag: 'div',
+          tag: 'svg',
           injectTo: 'body-prepend',
           attrs: {
+            id: '__svg-sprite__',
             'aria-hidden': 'true',
+            xmlns: 'http://www.w3.org/2000/svg',
+            'xmlns:xlink': 'http://www.w3.org/1999/xlink',
             style: 'display: none;'
           },
-          children: readFileSync(spritePath, 'utf-8')
+          children: spriteContent
         }
       ];
     }
