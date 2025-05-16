@@ -9,6 +9,8 @@ import ErrorStackParser from 'error-stack-parser';
 // import { findCodeBySourcemap } from './utils';
 // import './styles/theme/index.scss';
 import svgIcon from './components/svg-icon.vue';
+// import "virtual:svg-icons-register";
+
 
 const app = createApp(App);
 app.use(router);
