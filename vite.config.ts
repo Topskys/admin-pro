@@ -20,7 +20,8 @@ import { createHtmlPlugin } from 'vite-plugin-html'; // 自动导入cdn
 import { manualChunksPlugin } from 'vite-plugin-webpackchunkname';
 
 // TEST: test vite-svg-script plugin
-import svgSpritePlugin from './src/plugins/vite-svg-script/src/plugins/vite-svg-loader';
+import svgSpritePlugin from './src/plugins/vite-svg-script/src/plugins/vite-icons.js';
+// import svgSpritePlugin from './src/plugins/vite-svg-script/src/plugins/vite-svg-loader';
 // import svgSpritePlugin from './src/plugins/vite-svg-loader-ts';
 // TEST: test vite-plugin-svg-icons plugin
 import {createSvgIconsPlugin} from 'vite-plugin-svg-icons'; // vite-plugin-svg-icons 用于自动导入 svg 图标

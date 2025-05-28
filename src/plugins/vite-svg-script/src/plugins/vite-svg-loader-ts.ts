@@ -130,7 +130,7 @@ export default function svgSpritePlugin(userOptions: SvgSpritePluginOptions = {}
       server.watcher.on('all', (event, path) => {
         if (path.includes(options.iconsDir) && event !== 'change') {
           log(`File change detected: ${path}`);
-          this.buildStart?.();
+          generateSprite();
           server.ws.send({ type: 'full-reload' });
         }
       });

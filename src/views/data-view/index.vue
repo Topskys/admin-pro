@@ -61,7 +61,6 @@ watch(
   () => result.value,
   () => {
     console.log('🚀 ~ watch ~ result:', result.value);
-    
     countDown.value.start();
     const { remaining, used } = countDown.value;
     remaining2.value = remaining;

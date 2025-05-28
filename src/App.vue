@@ -14,6 +14,7 @@
   <!-- <div><button @click="jsErr">測試monitor捕獲vue框架錯誤</button></div>
   <RouterLink to="/">首页</RouterLink>
   <RouterLink to="/errorView">js错误收集</RouterLink> -->
+  <svg-icon name="1040__1_" class-name="svg-icon---"></svg-icon>
   <RouterView />
 </template>
 
@@ -30,6 +31,7 @@
 // import './features';
 // import ParentComponent from './features/parentComponent';
 import { useBoardStore } from './store/board';
+import svgIcon from './components/svg-icon.vue';
 
 const jsErr = () => {
   const num = new Number(223.12);

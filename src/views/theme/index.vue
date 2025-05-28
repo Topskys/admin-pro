@@ -88,6 +88,7 @@ const tableData = [
 ];
 
 const toggleTheme = (value: string) => {
+  // https://juejin.cn/post/7215485221830852665
   document.documentElement.setAttribute('class', value);
 };
 

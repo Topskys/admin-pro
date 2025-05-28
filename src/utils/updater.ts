@@ -4,7 +4,9 @@ interface Options {
 
 /**
  * Updater 类用于检测页面中的脚本是否更新。
+ *
  * @class Updater
+ * @param {Options} options - 配置项，包含定时器时间。
  * @example
  * const updater = new Updater({
  *  timer: 10000,
@@ -13,6 +15,9 @@ interface Options {
  * }).on('no-update', () => {
  *  console.log('无更新');
  * });
+ *
+ * 作者：小满zs
+ * https://juejin.cn/post/7185451392994115645
  *
  */
 export class Updater {

@@ -178,11 +178,11 @@ export default defineComponent({
     },
     fill: {
       type: String,
-      default: 'currentColor'
+      // default: 'currentColor'
     },
     stroke: {
       type: String,
-      default: 'currentColor'
+      // default: 'currentColor'
     }
   },
   setup(props) {
@@ -194,9 +194,9 @@ export default defineComponent({
 
     return {
       iconId,
-      validSize,
-      customFill: props.fill,
-      customStroke: props.stroke
+      // validSize,
+      // customFill: props.fill,
+      // customStroke: props.stroke
     }
   }
 })
@@ -207,7 +207,7 @@ export default defineComponent({
   width: 1em;
   height: 1em;
   vertical-align: -0.15em;
-  /* fill: currentColor; */
+  fill: currentColor;
   overflow: hidden;
 }
 </style>
