@@ -24,12 +24,14 @@
 </style> -->
 
 <template>
+  <iconSvg name="home"></iconSvg>
   <div ref="chartContainer" style="width: 600px; height: 400px"></div>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import echarts from '@/plugins/echarts';
+import iconSvg from './iconSvg.vue'; // 导入组件
 
 const chartContainer = ref(null);
 let mainChart = null;
