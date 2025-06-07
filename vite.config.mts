@@ -25,6 +25,7 @@ import svgSpritePlugin from './src/plugins/vite-svg-script/src/plugins/vite-icon
 // import svgSpritePlugin from './src/plugins/vite-svg-loader-ts';
 // TEST: test vite-plugin-svg-icons plugin
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'; // vite-plugin-svg-icons 用于自动导入 svg 图标
+import UnoCSS from 'unocss/vite';
 
 // 不加入打包使用外链
 const globals = externalGlobals({
@@ -72,6 +73,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         mockPath: 'mock', // 数据模拟需要拦截的请求起始 URL
         enable: true // 本地环境是否开启 mock 功能
       }),
+      UnoCSS(),
       ElementPlus({
         useSource: true, // 新增配置（切换主题2）
         defaultLocale: 'zh-cn' // 新增配置
@@ -145,7 +147,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         }
       }),
       globals, // 不加入打包使用外链（cdn）
-      manualChunksPlugin() // 静态资源分类打包
+      manualChunksPlugin(), // 静态资源分类打包
       // svgSpritePlugin({
       //   iconsDir: 'src/icons',
       //   prefix: 'icon',
@@ -160,6 +162,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       //   iconDirs: [path.resolve(process.cwd(), "src/icons")],
       //   symbolId: "icon-[name]",
       // }),
+      
     ],
     // 运行后本地预览的服务器
     server: {

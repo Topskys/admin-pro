@@ -68,7 +68,7 @@
     "build/**/*.ts",
     "build/**/*.d.ts",
     "mock/**/*.ts",
-    "vite.config.ts",
+    "vite.config.mts",
     "src/plugins/vite-svg-script/src/plugins/vite-svg-loader-ts.ts"
   ],
   // 指定不需要编译的文件

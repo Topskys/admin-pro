@@ -14,9 +14,9 @@
   <!-- <div><button @click="jsErr">測試monitor捕獲vue框架錯誤</button></div>
   <RouterLink to="/">首页</RouterLink>
   <RouterLink to="/errorView">js错误收集</RouterLink> -->
-  <svg-icon name="1040__1_" class-name="svg-icon---"></svg-icon>
+  <!-- <svg-icon name="1040__1_" class-name="svg-icon---"></svg-icon>
   <img :src="getImgUrl('home', 'svg')" alt="" />
-  <img :src="getSvg('home')" alt="" width="16" />
+  <img :src="getSvg('home')" alt="" width="16" /> -->
   <!-- <img src="/home.svg" alt=""/> -->
   <RouterView />
 </template>

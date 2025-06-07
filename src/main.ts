@@ -10,7 +10,7 @@ import ErrorStackParser from 'error-stack-parser';
 // import './styles/theme/index.scss';
 import svgIcon from './components/svg-icon.vue';
 // import "virtual:svg-icons-register";
-
+import 'virtual:uno.css';
 
 const app = createApp(App);
 app.use(router);

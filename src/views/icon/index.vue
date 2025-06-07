@@ -24,9 +24,11 @@
 </style> -->
 
 <template>
-  <!-- <iconSvg name="home"></iconSvg> -->
-  <img :src="getImgUrl('home.svg')" alt=""/>
-  <div ref="chartContainer" style="width: 600px; height: 400px"></div>
+  <div class="flex items-center gap-2">
+    <!-- <iconSvg name="home"></iconSvg> -->
+    <img :src="getImgUrl('home')" alt=""/>
+    <div ref="chartContainer" style="width: 600px; height: 400px"></div>
+  </div>
 </template>
 
 <script setup>

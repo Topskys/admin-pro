@@ -71,6 +71,7 @@
     "stylelint-order": "^6.0.3",
     "svgo": "^2.8.0",
     "typescript": "^5.2.2",
+    "unocss": "^66.1.4",
     "unplugin-auto-import": "^0.16.7",
     "unplugin-element-plus": "^0.8.0",
     "unplugin-icons": "^0.17.4",
