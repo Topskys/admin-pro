@@ -15,6 +15,9 @@
   <RouterLink to="/">首页</RouterLink>
   <RouterLink to="/errorView">js错误收集</RouterLink> -->
   <svg-icon name="1040__1_" class-name="svg-icon---"></svg-icon>
+  <img :src="getImgUrl('home', 'svg')" alt="" />
+  <img :src="getSvg('home')" alt="" width="16" />
+  <!-- <img src="/home.svg" alt=""/> -->
   <RouterView />
 </template>
 
@@ -32,6 +35,7 @@
 // import ParentComponent from './features/parentComponent';
 import { useBoardStore } from './store/board';
 import svgIcon from './components/svg-icon.vue';
+import { getImgUrl, getSvg } from './utils';
 
 const jsErr = () => {
   const num = new Number(223.12);

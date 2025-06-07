@@ -24,7 +24,7 @@ import svgSpritePlugin from './src/plugins/vite-svg-script/src/plugins/vite-icon
 // import svgSpritePlugin from './src/plugins/vite-svg-script/src/plugins/vite-svg-loader';
 // import svgSpritePlugin from './src/plugins/vite-svg-loader-ts';
 // TEST: test vite-plugin-svg-icons plugin
-import {createSvgIconsPlugin} from 'vite-plugin-svg-icons'; // vite-plugin-svg-icons 用于自动导入 svg 图标
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'; // vite-plugin-svg-icons 用于自动导入 svg 图标
 
 // 不加入打包使用外链
 const globals = externalGlobals({
@@ -145,16 +145,16 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         }
       }),
       globals, // 不加入打包使用外链（cdn）
-      manualChunksPlugin(), // 静态资源分类打包
-      svgSpritePlugin({
-        iconsDir: 'src/icons',
-        prefix: 'icon',
-        outputDir: 'public',
-        outputFile: 'sprite.svg',
-        enableLogs: true,
-        removeInlineStyles: false,
-        debounceTime: 300 // 新增防抖时间
-      }),
+      manualChunksPlugin() // 静态资源分类打包
+      // svgSpritePlugin({
+      //   iconsDir: 'src/icons',
+      //   prefix: 'icon',
+      //   outputDir: 'public',
+      //   outputFile: 'sprite.svg',
+      //   enableLogs: true,
+      //   removeInlineStyles: false,
+      //   debounceTime: 300 // 新增防抖时间
+      // }),
       // createSvgIconsPlugin({
       //   // 需要自动导入的 svg 文件目录（可自行修改）
       //   iconDirs: [path.resolve(process.cwd(), "src/icons")],

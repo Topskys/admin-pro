@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, RouteLocationNormalizedGeneric, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHashHistory, createWebHistory, RouteLocationNormalizedGeneric, RouteRecordRaw } from 'vue-router';
 import 'nprogress/nprogress.css';
 import NProgress from 'nprogress';
 import { useSettingStore } from '@/store/setting';

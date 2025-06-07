@@ -90,18 +90,16 @@ const hoverClass = computed(() => {
 }
 </style> -->
 
-
-
 <!-- 优化 -->
 <script setup>
 import { defineProps, ref, watchEffect, computed } from 'vue';
 
 // 动态导入 SVG（非 eager）
-const svgModules = import.meta.glob('@/icons/*.svg', { as: 'raw' });
+const svgModules = {} //import.meta.glob('@/icons/*.svg', { as: 'raw' });
 
 // 构建图标映射
 const iconMap = new Map();
-Object.keys(svgModules).forEach(path => {
+Object.keys(svgModules).forEach((path) => {
   const name = path.split('/').pop().replace('.svg', '');
   iconMap.set(name, path);
 });
@@ -123,7 +121,7 @@ const optimizeSVG = (svg) => {
 const loadIcon = async (name) => {
   if (!iconMap.has(name)) return '';
   if (iconCache.has(name)) return iconCache.get(name);
-  
+
   try {
     const path = iconMap.get(name);
     let content = await svgModules[path]();
@@ -162,7 +160,7 @@ const error = ref(null);
 watchEffect(async () => {
   isLoading.value = true;
   error.value = null;
-  
+
   try {
     svgContent.value = await loadIcon(props.name);
   } catch (e) {
@@ -195,18 +193,10 @@ const hoverClass = computed(() => {
     <div v-if="isLoading" class="loading-indicator">
       <div class="spinner"></div>
     </div>
-    
-    <div v-else-if="error" class="error-message">
-      <span>⚠️</span> {{ error }}
-    </div>
-    
-    <div 
-      v-else
-      class="svg-icon-container"
-      :class="hoverClass"
-      :style="iconStyle"
-      v-html="svgContent"
-    ></div>
+
+    <div v-else-if="error" class="error-message"><span>⚠️</span> {{ error }}</div>
+
+    <div v-else class="svg-icon-container" :class="hoverClass" :style="iconStyle" v-html="svgContent"></div>
   </div>
 </template>
 
@@ -242,8 +232,12 @@ const hoverClass = computed(() => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .error-message {

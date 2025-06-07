@@ -24,7 +24,8 @@
 </style> -->
 
 <template>
-  <iconSvg name="home"></iconSvg>
+  <!-- <iconSvg name="home"></iconSvg> -->
+  <img :src="getImgUrl('home.svg')" alt=""/>
   <div ref="chartContainer" style="width: 600px; height: 400px"></div>
 </template>
 
@@ -32,6 +33,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import echarts from '@/plugins/echarts';
 import iconSvg from './iconSvg.vue'; // 导入组件
+import { getImgUrl } from '@/utils';
 
 const chartContainer = ref(null);
 let mainChart = null;

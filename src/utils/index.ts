@@ -28,3 +28,14 @@ export const findCodeBySourcemap = async (stackFrame: any) => {
   const code = consumer.sourceContentFor(originalPosition.source);
   console.log('sourcemap还原之后的源代码', code);
 };
+
+export function getImgUrl(url: string, prefix: string = 'svg') {
+  return new URL(`../icons/${url}.${prefix}`, import.meta.url).href;
+}
+
+export function getSvg(name: string) {
+  const path = `../icons/${name}.svg`;
+  const modules = import.meta.glob('../icons/*.svg', { eager: true });
+  console.log("🚀 ~ getSvg ~ modules :", modules )
+  return modules[path]?.default;
+}
