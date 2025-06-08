@@ -112,7 +112,7 @@ importers:
         specifier: ^3.0.2
         version: 3.1.0(vite@5.4.15(@types/node@20.17.28)(less@4.2.2)(sass@1.86.3)(terser@5.39.0))(vue@3.5.13(typescript@5.8.2))
       autoprefixer:
-        specifier: ^10.4.20
+        specifier: ^10.4.21
         version: 10.4.21(postcss@8.5.3)
       esbuild:
         specifier: ^0.19.6
@@ -145,7 +145,7 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
       postcss:
-        specifier: ^8.4.49
+        specifier: ^8.5.3
         version: 8.5.3
       postcss-html:
         specifier: ^1.5.0
@@ -201,6 +201,9 @@ importers:
       svgo:
         specifier: ^2.8.0
         version: 2.8.0
+      tailwindcss:
+        specifier: ^4.1.8
+        version: 4.1.8
       typescript:
         specifier: ^5.2.2
         version: 5.8.2
@@ -4856,6 +4859,9 @@ packages:
   table@6.9.0:
     resolution: {integrity: sha512-9kY+CygyYM6j02t5YFHbNz2FN5QmYGv9zAjVp4lCDjlCw7amdckXlEt/bjMhUIfj4ThGRE4gCUH5+yGnNuPo5A==}
     engines: {node: '>=10.0.0'}
+
+  tailwindcss@4.1.8:
+    resolution: {integrity: sha512-kjeW8gjdxasbmFKpVGrGd5T4i40mV5J2Rasw48QARfYeQ8YS9x02ON9SFWax3Qf616rt4Cp3nVNIj6Hd1mP3og==}
 
   terser@5.39.0:
     resolution: {integrity: sha512-LBAhFyLho16harJoWMg/nZsQYgTrg5jXOn2nCYjRUcZZEdE3qa2zb8QEDRUGVZBW4rlazf2fxkg8tztybTaqWw==}
@@ -10467,6 +10473,8 @@ snapshots:
       slice-ansi: 4.0.0
       string-width: 4.2.3
       strip-ansi: 6.0.1
+
+  tailwindcss@4.1.8: {}
 
   terser@5.39.0:
     dependencies:

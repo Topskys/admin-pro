@@ -24,9 +24,11 @@
 </style> -->
 
 <template>
-  <div class="flex items-center gap-2">
+  <div class="flex items-center gap-2 lg:text-red">
     <!-- <iconSvg name="home"></iconSvg> -->
     <img :src="getImgUrl('home')" alt=""/>
+    home icon
+    <img-icon name="home"></img-icon>
     <div ref="chartContainer" style="width: 600px; height: 400px"></div>
   </div>
 </template>
@@ -36,6 +38,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 import echarts from '@/plugins/echarts';
 import iconSvg from './iconSvg.vue'; // 导入组件
 import { getImgUrl } from '@/utils';
+import ImgIcon from '@/components/image/img-icon.vue'; // 导入组件
 
 const chartContainer = ref(null);
 let mainChart = null;

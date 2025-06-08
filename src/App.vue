@@ -56,6 +56,10 @@ onMounted(() => {
 
 </script>
 <style lang="less">
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 #app {
   height: inherit;
 }

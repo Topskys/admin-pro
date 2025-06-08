@@ -73,7 +73,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         mockPath: 'mock', // 数据模拟需要拦截的请求起始 URL
         enable: true // 本地环境是否开启 mock 功能
       }),
-      UnoCSS(),
+      // UnoCSS(),
       ElementPlus({
         useSource: true, // 新增配置（切换主题2）
         defaultLocale: 'zh-cn' // 新增配置
